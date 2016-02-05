@@ -3,13 +3,17 @@ Repository for the CPS406 Group Project, Winter Semester 2016
 
 Team Allocation is as follows:
 
-Paul Martins - TBD
-Robert Tosic - TBD
-Christopher Burger - TBD
-Ryan Randive - TBD
-Zain Quraishi - TBD
-Andy Llactahuamani - TBD
+Paul Martins - Developer
+Robert Tosic - Team Leader
 
-Project Selected: TBD
+Christopher Burger - Client
 
-Programming Language Being Used: TBD
+Ryan Randive - Requirement Engineer
+
+Zain Quraishi - Tester
+
+Andy Llactahuamani - Developer
+
+Project Selected: Patient Monitoring System
+
+Programming Language Being Used: Java
