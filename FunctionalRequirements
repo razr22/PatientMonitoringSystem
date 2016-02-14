@@ -1,0 +1,8 @@
+Functional Requirements for a Patient Monitoring System
+•	The system shall be able to display the vital signs of the patient in real-time. This includes: body temperature, blood pressure, heart rate, and respiratory rate 
+•	At  the same time the system is able to take the input data of the vital signs from the patient and log the data in real time (save the vital sign data to a file/database). This makes it easier to keep a record of the body's activity over time
+•	If the patient is facing trauma and has any of their vital signs showing irregular behaviour, a warning will appear on the monitoring system that will inform the nurse/doctors that the patient is in need of immediate care
+•	When the system starts up or when a nurse/doctor needs to access certain commands on the system the system will ask the user to input a pass-code to gain access. This will prevent any unauthorized personnel from tampering with the system
+•	Nurse/doctors will be able to see the patient's past medical history on screen
+•	Nurse/doctors will be able to see a neatly formatted agenda of what treatment the patient needs to go though during their time at the hospital (this is for convenience)
+•	Since certain patients' bodies have different standards for 'normal' vital signs, a doctor/nurse is able to change the limits of what is considered a healthy range for the vital signs (so the warning system does not go off prematurely)
