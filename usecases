@@ -1,0 +1,518 @@
+CPS 406 Patient Monitoring System: Requirements Document Prioritized Requirements:
+High Priority
+•	1.Display vital signs
+a.	Blood pressure
+b.	Respiratory rate
+c.	Heart rate
+d.	Body temperature
+•	2.Access medical history database
+•	3.Log vital signs of person throughout hospital stay
+•	4.Display warnings
+a.	Temperature too high/low
+b.	Irregular heart rate
+c.	Asphyxiation (breathing)
+d.	Blood pressure (too high/low)
+•	5.Re-initialize/start-up sequence
+
+Medium Priority
+•	6.Change alarm default limits
+•	7.User verification Low Priority
+•	8.Administer morphine
+•	9.Change between metric/imperial measurement systems
+•	10.Display agenda (treatment schedule)
+•	11.Daytime/Night-time themes
+ 
+Use Case: Display Blood Pressure
+Brief Description: This use case describes the process of displaying the patient's blood pressure in mmHg (millimeters of mercury)
+
+Actors:
+Primary Actor: Nurse/Doctor Secondary Actors: Patient
+
+Triggers:
+Nurse/doctor hooks the patient up to the monitoring system.
+
+Flow of events:
+Basic Flow-Display the patient's blood pressure on the screen
+a)	Use case begins when the nurse/doctor hooks up the patient to the patient monitoring system.
+b)	The monitoring system finds value for the blood pressure of the patient.
+c)	While the patient is hooked up to the patient monitoring system.
+c.1)Every 3 seconds an updated blood pressure reading from the patient will be updated and displayed on screen
+
+Preconditions:
+a)   The patient monitoring system is on.
+
+Alternate flows and lor subflows: None.
+
+Special requirements: None.
+
+Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee] Patient's blood pressure is displayed on screen in mmHg Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+System is unable to obtain the reading of the patient's blood pressure
+
+Extension Points:
+Log Vital Signs (use case)
+ 
+Use Case: Display Respiratory Rate
+Brief Description: This use case describes the process of displaying the patient's respiratory rate in breaths per minute.
+
+Actors:
+Primary Actor: Nurse/Doctor Secondary Actors: Patient.
+
+Triggers:
+There is a patient hooked up to the patient monitoring system.
+
+Flow of events:
+Basic Flow-Display the patient's respiratory rate on the screen
+a)	Use case begins when the nurse/doctor hooks up the patient to the patient monitoring system.
+b)	The monitoring system finds value for the respiratory rate of the patient.
+c)	While the patient is hooked up to the patient monitoring system.
+c.1)Every 3 seconds an updated respiratory rate reading from the patient will be updated and displayed on screen
+
+Preconditions:
+a)   The patient monitoring system is on.
+
+Alternate flows and lor subflows: None.
+
+Special requirements: None.
+
+Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee] Patient's respiratory rate is displayed on screen in breaths per minute. Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+System is unable to obtain the reading of the patient's respiratory rate.
+
+Extension Points:
+Log Vital Signs (use case)
+ 
+Use Case: Display Heart Rate
+Brief Description: This use case describes the process of displaying the patient's heart rate in beats per minute.
+
+Actors:
+Primary Actor: Nurse/Doctor Secondary Actors: None.
+
+Triggers:
+There is a patient hooked up to the patient monitoring system.
+
+Flow of events:
+Basic Flow-Display the patient's heart rate on the screen
+a)	Use case begins when the nurse/doctor hooks up the patient to the patient monitoring system.
+b)	The monitoring system finds value for the heart rate of the patient.
+c)	While the patient is hooked up to the patient monitoring system.
+c.1)Every 3 seconds an updated heart rate reading from the patient will be updated and displayed on screen
+
+Preconditions:
+a)   The patient monitoring system is on.
+
+Alternate flows and lor subflows: None.
+
+Special requirements: None.
+
+Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee] Patient's heart rate is displayed on screen in beats per minute. Failure Postcondition(s) [a.k.a the Minimal Guarantee] System is unable to obtain the reading of the patient's heart rate.
+
+Extension Points:
+Log Vital Signs (use case)
+ 
+Use Case: Display Temperature
+Brief Description: This use case describes the process of displaying the patient's temperature in degrees centigrade.
+
+Actors:
+Primary Actor: Nurse/doctor Secondary Actors: Patient
+
+Triggers:
+There is a patient hooked up to the patient monitoring system.
+
+Flow of events:
+Basic Flow-Display the patient's temperature on the screen
+a)Use case begins when the nurse/doctor hooks up the patient to the patient monitoring system. b)The monitoring system finds temperature of the patient.
+c) While the patient is hooked up to the patient monitoring system.
+c.1)Every 3 seconds an updated temperature reading from the patient will be updated and displayed on screen
+
+Preconditions:
+a)   The patient monitoring system is on.
+
+Alternate flows and lor subflows:
+a)  Nurse/doctor changes measurement system from metric to imperial.
+
+Special requirements: None.
+
+Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee] Patient's temperature is displayed on screen in degrees centigrade. Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+System is unable to obtain the reading of the patient's temperature.
+
+Extension Points:
+Log Vital Signs (use case)
+ 
+Use Case: Access medical history database
+Brief Description: This use case describes the process of accessing a patient history database to try and find the past medical history of the patient in care.
+
+Actors:
+Primary Actor: Nurse/doctor in charge Secondary Actors: None.
+
+Triggers:
+The user selects the 'Search database' button on the monitoring system interface in order to call this use case.
+
+Flow of events:
+Basic Flow-Select patient data from medical database
+a)	Use case begins when the user clicks 'Search database' button.
+b)	A window will open featuring the patient’s past medical history in point form
+c)	To close the patient medical history user presses 'Close' button on medical history window.
+
+Preconditions:
+The nurse/doctor needs to be logged in.
+
+Alternate flows and lor subflows: None.
+
+Special requirements:
+User verification to gain access to the medical database. Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee]
+Patient medical history is displayed on screen and the system awaits for further user instruction. Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+System is unable to open the medical database. A error message is displayed and user will return to main interface.
+
+Extension Points: None.
+ 
+Use Case: User Verification
+Brief Description: This use case describes the process of verifying if the user is an authorized doctor/nurse when trying to access certain commands.
+
+Actors:
+Primary Actor: Nurse/doctor in charge Secondary Actors: None.
+
+Triggers:
+The patient monitoring system is turned on.
+
+Flow of events:
+Basic Flow-System requesting user verification
+a)	Use case begins when the nurse/doctor turns on the patient monitoring system.
+b)	The system will then display a window that will greet the user and prompt them to input a 6-digit pass-code in order to gain access to the monitoring system's features.
+c)	Primary actor will then input the 6 digit pass-code and press the 'OK' button to confirm input.
+d)	System will verify if the pass-code is correct.
+e)	Window will close and user will have access to the patient monitoring system functions.
+
+Preconditions: None.
+
+Alternate flows and lor subflows:
+d.1) User inputs an incorrect pass-code and will be asked to try again.
+
+Special requirements: None.
+
+Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee]
+The user inputs the correct pass-code and is then able to access the monitoring system. Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+System will deny access from an incorrect pass-code and will ask the user to try again.
+
+Extension Points: None.
+ 
+Use Case: Administer Morphine (Patient controlled analgesia (PCA))
+Brief Description: This use case describes the process of a patient being able to administer a dosage of morphine.
+
+Actors:
+Primary Actor: Patient Secondary Actors: None.
+
+Triggers:
+The primary actor selects the 'Administer morphine' button.
+
+Flow of events:
+Basic Flow-Self administering pain medication
+a)	Use case begins when the primary actor clicks 'Administer morphine'
+b)	System will display a notification on screen (along with a small beep sound) indicating that the patient is receiving the pain medication
+c)	After the medicine has been administered, the notification will disappear
+d)	The 'Administer morphine' button will be unavailable for use for a certain amount of time depending on the patient's condition and what the doctor recommends for amount of dosage.
+
+Preconditions: None.
+
+Alternate flows and lor subflows: None.
+
+Special requirements: None.
+
+Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee]
+The user presses the button and morphine is given to the patient for that dosage. Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+System will have the 'Administer morphine' button disabled for use.
+
+Extension Points: None.
+ 
+Use Case: Display Agenda
+Brief Description: This use case describes the process of a patient or nurse/doctor being able to view the patient's treatment schedule during their hospital stay.
+
+Actors:
+Primary Actor(s): Nurse/Doctor Secondary Actors: None.
+
+Triggers:
+The primary actor hovers over the 'View Agenda' button.
+
+Flow of events:
+Basic Flow-View agenda for patient
+a)	Use case begins when a primary actor clicks 'View agenda'.
+b)	A window will open that will display the current patient's treatment schedule.
+c)	To close the agenda, the actor presses 'Close' button on agenda window.
+
+Preconditions: None.
+
+Alternate flows and lor subflows: None.
+
+Special requirements: None.
+
+Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee] The agenda is displayed on screen.
+Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+Agenda window will open on screen, but there will be no content available in the window.
+
+Extension Points: None.
+ 
+Use Case: Log vital signs throughout the hospital stay Brief Description:
+This use case keeps a log of the vital signs of the patient throughout their hospital stay. (Blood pressure, Respiratory rate, Heart rate, and Body temperature)
+
+Actors:
+Primary Actor(s): Patient Secondary Actors(s): None.
+
+Triggers
+The patient is hooked up to the patient monitoring system.
+
+Flow of Events
+Basic Flow - Log Vital signs
+a)	Use case begins when the patient is hooked up to the patient monitoring system.
+b)	While the patient is hooked up to the monitoring system.
+b.1)	System reads the input of vital sign(s) from patient
+b.2)	System periodically stores data into a database to keep as records
+
+Alternate flows and lor subflows: None.
+
+Special Requirements: None.
+
+Preconditions:
+All input devices must be connected to the patient and working properly to record information.
+
+Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee] Information is successfully read and recorded to the database. Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+Information is not successfully read and/or not recorded to the database.
+
+Extension Points None.
+ 
+Use Case: Display Warnings(temperature too high/low) Brief Description:
+This use case displays a warning on screen when the internal temperature of the patient exceeds or goes below their healthy range.
+
+Actors:
+Primary Actor(s): Patient Secondary Actor(s): None.
+
+Triggers
+Patient’s temperature exceeds or goes below the healthy range for that patient.
+
+Flow of Events
+Basic flow - Display Warning for Temperature
+a)	Use case starts when the patient’s temperature exceeds or goes below their healthy range
+b)	While the patient’s temperature is out of range
+b.1) Warning is displayed on screen/warning sound is played
+c)	Temperature is back in range and the warning disappears from screen, sound stops
+
+Alternate flows and lor subflows: None.
+
+Special Requirements None.
+
+Preconditions
+System needs to have patient hooked up to monitoring system, and have patient’s health data (for the temperature range)
+
+Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee] The warning is displayed on screen with a warning sound playing. Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+Patient’s temperature will go out of range, but no warning will appear.
+
+Extension Points: None.
+ 
+Use Case: Display Warnings(Irregular heart rate) Brief Description:
+This use case displays a warning on screen when the heart rate of the patient exceeds or goes below their healthy range.
+
+Actors:
+Primary Actor(s): Patient Secondary Actor(s): None.
+
+Triggers
+Patient’s heart rate exceeds or goes below the healthy range for that patient.
+
+Flow of Events
+Basic flow - Display warning for heart rate
+a)	Use case starts when the patient’s heart rate exceeds or goes below their healthy range
+b)	While the patient’s heart rate is out of range
+b.1) Warning is displayed on screen/warning sound is played
+c)	Heart rate is back in range and the warning disappears from screen, sound stops
+
+Alternate flows and lor subflows: None.
+
+Special Requirements None.
+
+Preconditions
+System needs to have patient hooked up to monitoring system, and have patient’s health data (for the heart rate range)
+
+Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee] The warning is displayed on screen with a warning sound playing. Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+Patient’s heart rate will go out of range, but no warning will appear
+
+Extension Points: None.
+ 
+Use Case: Display Warnings(Asphyxiation/irregular breathing) Brief Description:
+This use case displays a warning on screen when the breaths per minute rate of the patient exceeds or goes below their healthy range.
+
+Actors:
+Primary Actor(s): Patient Secondary Actor(s): None.
+
+Triggers
+Patient’s breaths per minute rate exceeds or goes below the healthy range for that patient.
+
+Flow of Events
+Basic flow - Display warning for breathing problems
+a)	Use case starts when the patient’s breaths per minute rate exceeds or goes below their healthy range
+b)	While the patient’s breathing rate is out of range
+b.1) Warning is displayed on screen/warning sound is played
+c)	Breathing rate is back in range and the warning disappears from screen, sound stops
+
+Alternate flows and lor subflows: None.
+
+Special Requirements None.
+
+Preconditions
+System needs to have patient hooked up to monitoring system, and have patient’s health data (for the breathing rate range)
+
+Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee] The warning is displayed on screen with a warning sound playing. Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+Patient’s breathing rate will go out of range, but no warning will appear
+
+Extension Points: None.
+ 
+Use Case: Display Warnings(Blood pressure) Brief Description:
+This use case displays a warning on screen when the blood pressure of the patient exceeds or goes below their healthy range.
+
+Actors:
+Primary Actor(s): Patient Secondary Actor(s): None.
+
+Triggers
+Patient’s blood pressure exceeds or goes below the healthy range for that patient.
+
+Flow of Events
+Basic flow - Display warning for blood pressure issues
+a)	Use case starts when the patient’s breaths per minute rate exceeds or goes below their healthy range
+b)	While the patient’s blood pressure is out of range
+b.1) Warning is displayed on screen/warning sound is played
+c)	Blood pressure is back in range and the warning disappears from screen, sound stops
+
+Alternate flows and lor subflows: None.
+
+Special Requirements None.
+
+Preconditions
+System needs to have patient hooked up to monitoring system, and have patient’s health data (for the blood pressure range)
+
+Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee] The warning is displayed on screen with a warning sound playing. Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+Patient’s blood pressure will go out of range, but no warning will appear
+
+Extension Points: None.
+ 
+Use Case: Re-initialize/start-up sequence Brief Description:
+Re-initialize the system in order to reset data and be ready for use with another patient.
+
+Actors:
+Primary Actor(s): Nurse/Doctor Secondary Actor(s): None.
+
+Triggers
+Actor selects the reset button on the patient monitoring system interface.
+
+Flow of Events
+Basic Flow- Restarting the patient monitoring system
+a)	The use case starts when the nurse/doctor presses the reset button.
+b)	The monitoring system screen will reset all values previously displayed on screen (and being managed in the system during that time of operation)
+c)	System will verify if the user is authorized to access the monitoring system, include (User verification use case)
+d)	System will select the new patient for care once the patient is hooked up
+
+Alternate flows and lor subflows: None.
+
+Special Requirements: None.
+
+Preconditions
+Patient is disconnected from the monitor.
+
+Postconditions
+Success Postcondition(s) [a.k.a the Success Guarantee] System is reset/re-initialized for care on another patient.
+Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+System will be unable to reset the current patient values and restart the system.
+
+Extension Point(s) None.
+ 
+Use Case: Change alarm default limits Brief Description:
+Change the default range of the healthy vital signs for a patient in order to set bounds for when the warning alarm should sound.
+
+Actors:
+Primary Actor(s): Nurse/Doctor Secondary Actor(s): None.
+
+Triggers
+Actor clicks on the ‘Change Limits’ button.
+
+Flow of Events
+Basic Flow- Changing the alarm limits
+a)	The use case begins when the nurse/doctor clicks on the ‘Change Limits’ button on the patient monitoring system interface.
+b)	System will ask for user verification to complete this task, includes (User verification use case)
+c)	A window will open that has the upper and lower limits listed for each of the vital signs of the patient
+d)	Nurse/doctor can change these limits by selecting the limit of the specific vital sign and inputting a new limit.
+e)	To exit the window, user can click the ‘Close’ button on the window.
+
+Alternate flows and lor subflows:
+c)	Lower limit is equal to or greater than the upper limit.
+c.1)	The system will inform the user that the lower limit cannot be greater than or equal to the upper limit.
+c.2)	Limits will go back to what they were just before the user tried to change it
+
+Special Requirements:
+User needs to be an authorized hospital worker.
+
+Preconditions: None.
+
+Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee] System saves new alarm limits for the current patient.
+Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+System will be unable to set the new alarm limits of the patient and will revert to the default limits.
+ 
+Extension Points: None.
+ 
+Use Case: Change between metric/imperial measurement systems Brief Description:
+Change the units of measurement on the display between imperial and metric.
+
+Actors:
+Primary Actor: Nurse/Doctor, Patient. Secondary Actor: None.
+
+Triggers
+User presses a ‘Change units’ button on the monitoring system interface.
+
+Flow of Events
+Basic Flow- Changing between measurement systems
+a)	The use case begins when the primary actor presses the ‘Change units’ button.
+b)	Monitoring device will change the units of displayed stats to imperial if it was previously metric or vise versa.
+
+Alternate flows and lor subflows: None.
+
+Special Requirements: None.
+
+Preconditions: None.
+
+Postconditions:
+Success Postcondition(s) [a.k.a the Success Guarantee] System will change the unit system.
+Failure Postcondition(s) [a.k.a the Minimal Guarantee]
+System will be unable to change the unit system and the stats displayed will remain in the previous units of measurement.
+
+Extension Points: None.
+ 
+Use Case: Daytime/Night-time themes Brief Description:
+Changes the lighting and display on the monitor to suit the time of day
+
+Actors:
+Primary Actor: Patient, Nurse/Doctor Secondary Actor:
+
+Triggers
+User presses ‘Day/Night theme’ button.
+
+Flow of Events
+a)	The use case begins when the primary actor presses the theme button
+b)	Colors/theme on the display will change to the nighttime theme if it was on the daytime theme and vise versa.
+
+Alternate flows and lor subflows: None.
+
+Special Requirements: None.
+
+Preconditions:
+Patient monitoring system is on. Postconditions
+Success Postcondition(s) [a.k.a the Success Guarantee] System will change the display theme.
+Failure Postcondition(s) [a.k.a the Minimal Guarantee] System will change the display theme.
+
+Extension Points: None.
