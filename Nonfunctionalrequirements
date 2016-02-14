@@ -1,0 +1,11 @@
+Non-Functional Requirements for a Patient Monitoring System
+•	System should be quick and intuitive. There are many scenarios where the medical team need to work fast and effectively to save a patient's life and the monitoring system should provide all the details clearly to all medical staff
+o	Goal
+•	It should take medical staff no more than 8 seconds to click on a function, input their pass-code and use the function whenever there is a feature on the system that requires user verification.
+o	Testable non-functional requirement
+•	Screen should refresh the vital signs of the patient at least every 3 seconds or faster.
+o	Speed
+•	There are no help or prompts on the monitoring system to help with understanding the functionality once it is in use. This would make the design and layout clustered for an doctor using it. Therefore it should take at most 2 hours for a nurse/doctor using the system for the first time to learn it thoroughly.
+o	Ease of use
+•	Losing records of patients is detrimental therefore there should be a very low failure rate (less than 5% failure rate) for lost or corrupted vital sign data or medical history of any patient
+o	Robustness
