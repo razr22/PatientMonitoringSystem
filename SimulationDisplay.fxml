@@ -1,0 +1,81 @@
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="720.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <HBox layoutX="10.0" layoutY="35.0" prefHeight="250.0" prefWidth="600.0" spacing="200.0">
+               <children>
+                  <Slider orientation="VERTICAL" />
+                  <Slider layoutX="10.0" layoutY="10.0" orientation="VERTICAL" />
+                  <Slider layoutX="24.0" layoutY="10.0" orientation="VERTICAL" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="75.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <HBox prefHeight="20.0" prefWidth="600.0" spacing="150.0">
+               <padding>
+                  <Insets bottom="10.0" left="55.0" right="10.0" top="10.0" />
+               </padding>
+               <children>
+                  <Label text="Heart Rate" />
+                  <Label layoutX="85.0" layoutY="20.0" text="Breath Rate" />
+                  <Label layoutX="313.0" layoutY="20.0" text="Blood Presure" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="35.0" prefHeight="250.0" prefWidth="600.0" spacing="200.0">
+               <children>
+                  <Slider orientation="VERTICAL" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="75.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="285.0" prefHeight="20.0" prefWidth="600.0" spacing="150.0">
+               <children>
+                  <Label text="Body Temperautre" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="40.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="35.0" prefHeight="89.0" prefWidth="600.0" spacing="100.0">
+               <padding>
+                  <Insets bottom="35.0" left="75.0" top="35.0" />
+               </padding>
+               <children>
+                  <Button mnemonicParsing="false" text="Heart Attack" />
+                  <Button layoutX="85.0" layoutY="20.0" mnemonicParsing="false" text="High Blood Preasure" />
+                  <Button layoutX="337.0" layoutY="20.0" mnemonicParsing="false" text="Seizure" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
