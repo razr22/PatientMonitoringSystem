@@ -89,6 +89,14 @@
                            <children>
                               <VBox prefHeight="331.0" prefWidth="399.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
+                                    <Label text="Heart Rate">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                       </padding>
+                                    </Label>
                                     <MenuBar minWidth="-Infinity">
                                       <menus>
                                         <Menu mnemonicParsing="false" text="File">
@@ -124,6 +132,14 @@
                            <children>
                               <VBox prefHeight="331.0" prefWidth="399.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
+                                    <Label text="Respiratory Rate">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                       </padding>
+                                    </Label>
                                     <MenuBar minWidth="-Infinity">
                                       <menus>
                                         <Menu mnemonicParsing="false" text="File">
@@ -167,6 +183,14 @@
                            <children>
                               <VBox prefHeight="331.0" prefWidth="399.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
+                                    <Label text="Blood Preasure">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                       </padding>
+                                    </Label>
                                     <MenuBar minWidth="-Infinity">
                                       <menus>
                                         <Menu mnemonicParsing="false" text="File">
@@ -202,6 +226,14 @@
                            <children>
                               <VBox prefHeight="331.0" prefWidth="399.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
+                                    <Label text="Body Temperature">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                       </padding>
+                                    </Label>
                                     <MenuBar minWidth="-Infinity">
                                       <menus>
                                         <Menu mnemonicParsing="false" text="File">
