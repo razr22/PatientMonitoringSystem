@@ -32,18 +32,39 @@
       </MenuBar>
    </top>
    <bottom>
-      <HBox minHeight="-Infinity" minWidth="-Infinity" BorderPane.alignment="CENTER">
+      <VBox>
          <children>
-            <Label minHeight="-Infinity" minWidth="-Infinity" text="Quick Data: Heart Rate Highs &amp; Lows, etc...">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
+            <HBox spacing="15.0">
+               <children>
+                  <Label text="Event" />
+                  <TextField fx:id="eventName" prefHeight="25.0" prefWidth="258.0" promptText="Type Here" HBox.hgrow="ALWAYS" />
+                  <Label layoutX="10.0" layoutY="10.0" text="Time" />
+                  <ComboBox fx:id="hour" prefWidth="150.0" promptText="12" />
+                  <Label layoutX="187.0" layoutY="10.0" text=":" />
+                  <ComboBox fx:id="minute" layoutX="215.0" layoutY="10.0" prefWidth="150.0" promptText="00" />
+                  <ComboBox fx:id="am_pm" layoutX="393.0" layoutY="10.0" prefWidth="150.0" promptText="AM" />
+                  <Button mnemonicParsing="false" onAction="#addEventButton" text="Add Event" />
+                  <Button layoutX="1005.0" layoutY="15.0" mnemonicParsing="false" onAction="#removeEventButton" text="Remove Event" />
+               </children>
                <padding>
-                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
-            </Label>
+            </HBox>
+            <Separator prefWidth="200.0" />
+            <HBox minHeight="-Infinity" minWidth="-Infinity" BorderPane.alignment="CENTER">
+               <children>
+                  <Label minHeight="-Infinity" minWidth="-Infinity" text="Quick Data: Heart Rate Highs &amp; Lows, etc...">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
          </children>
-      </HBox>
+      </VBox>
    </bottom>
    <left>
       <VBox prefHeight="678.0" prefWidth="270.0" BorderPane.alignment="CENTER">
@@ -67,10 +88,10 @@
             </Label>
             <AnchorPane prefHeight="347.0" prefWidth="270.0" VBox.vgrow="ALWAYS">
                <children>
-                  <TableView layoutX="-24.0" layoutY="37.0" prefHeight="336.0" prefWidth="270.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="schedule" layoutX="-24.0" layoutY="37.0" prefHeight="336.0" prefWidth="270.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="Time" />
-                      <TableColumn maxWidth="-1.0" minWidth="180.0" prefWidth="180.0" text="Event" />
+                      <TableColumn fx:id="time" prefWidth="75.0" text="Time" />
+                      <TableColumn fx:id="event" maxWidth="-1.0" minWidth="180.0" prefWidth="180.0" text="Event" />
                     </columns>
                   </TableView>
                </children>
