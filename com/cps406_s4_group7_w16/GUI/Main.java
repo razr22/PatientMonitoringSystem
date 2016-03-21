@@ -1,6 +1,7 @@
 package com.cps406_s4_group7_w16.GUI;
 	
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -29,6 +30,7 @@ public class Main extends Application {
 			window.setTitle("Patient Monitoring System v1.0");
 			window.setScene(scene);
 			window.show();
+			window.setOnCloseRequest(e -> {Platform.exit(); System.exit(0);});
 			
 		} catch(Exception e) {
 			e.printStackTrace();

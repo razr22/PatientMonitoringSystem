@@ -6,7 +6,10 @@ import com.cps406_s4_group7_w16.Security.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -19,6 +22,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -50,13 +55,27 @@ public class MainDisplayController implements Initializable {
 	@FXML
 	ComboBox<String> am_pm;
 
+	@FXML
+	LineChart<Number,Number> heartRateChart;
+	@FXML
+	LineChart<Number,Number> bloodPreasureChart;
+	@FXML
+	LineChart<Number,Number> respiratoryRateChart;
+	@FXML
+	LineChart<String,Number> bodyTemperatureChart;
+	
+	
+	Timer timer = new Timer();
+	TimerTask task;
+	Random dice = new Random();
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		hour.setItems(FXCollections.observableArrayList("00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
 				"10", "11", "12"));
 		minute.setItems(FXCollections.observableArrayList("00", "05", "10", "15", "20", "25", "30", "35", "40", "45",
-				"50", "55", "60"));
+				"50", "55"));
 		am_pm.setItems(FXCollections.observableArrayList("AM","PM"));
 		hour.setValue("12");
 		minute.setValue("00");
@@ -73,6 +92,30 @@ public class MainDisplayController implements Initializable {
 				index.set(agenda.getAgenda().indexOf(newValue));
 				System.out.println("OK index is :" + agenda.getAgenda().indexOf(newValue));
 			}});
+	
+		
+		XYChart.Series<String,Number> series = new XYChart.Series<String,Number>();
+		
+		
+		
+		series.getData().add(new XYChart.Data<String,Number>("0",0));
+	
+		bodyTemperatureChart.getData().add(series);
+
+		task = new TimerTask(){
+			int secondsPassed = 0;
+			@Override
+			public void run() {
+				secondsPassed++;
+				System.out.println(secondsPassed);
+				int number;
+				number = 1+dice.nextInt(6);
+				series.getData().add(new XYChart.Data<String,Number>(String.valueOf(secondsPassed),number));
+			}
+			
+		};
+	
+		timer.scheduleAtFixedRate(task, 1000, 1000);
 	}
 
 	public void displayPatientSimulator() throws IOException {
@@ -137,4 +180,16 @@ public class MainDisplayController implements Initializable {
 		am_pm.setValue("AM");
 	}
 
+	private void updateHeartRate(){
+	
+	}
+	private void updateRespiratoryRate(){
+		
+	}
+	private void updateBloodPreasure(){
+		
+	}
+	private void updateTemperature(){
+		
+	}
 }

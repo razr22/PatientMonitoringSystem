@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
@@ -8,13 +9,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cps406_s4_group7_w16.GUI.MainDisplayController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@MainDisplayStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cps406_s4_group7_w16.GUI.MainDisplayController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#displayPatientSimulator" text="Patient Simulate Controls" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
                   <MenuItem mnemonicParsing="false" text="Exit" />
             </items>
           </Menu>
@@ -37,7 +39,7 @@
             <HBox spacing="15.0">
                <children>
                   <Label text="Event" />
-                  <TextField fx:id="eventName" prefHeight="25.0" prefWidth="258.0" promptText="Type Here" HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="eventName" prefHeight="25.0" prefWidth="258.0" promptText="Type Event Name Here" HBox.hgrow="ALWAYS" />
                   <Label layoutX="10.0" layoutY="10.0" text="Time" />
                   <ComboBox fx:id="hour" prefWidth="150.0" promptText="12" />
                   <Label layoutX="187.0" layoutY="10.0" text=":" />
@@ -77,7 +79,41 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <AnchorPane prefHeight="319.0" prefWidth="270.0" />
+            <AnchorPane prefHeight="319.0" prefWidth="270.0">
+               <children>
+                  <GridPane prefHeight="280.0" prefWidth="270.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.0" minWidth="10.0" prefWidth="51.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="206.0" minWidth="10.0" prefWidth="189.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="105.0" minHeight="10.0" prefHeight="105.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Name" GridPane.rowIndex="1" />
+                        <Label text="Age" GridPane.rowIndex="2" />
+                        <Label text="Height" GridPane.rowIndex="3" />
+                        <Label text="Weight" GridPane.rowIndex="4" />
+                        <TextField promptText="Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField promptText="Years" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField promptText="Meters" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField promptText="Pounds" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" styleClass="custom-node">
+                           <image>
+                              <Image url="@../../../../img/dog.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </GridPane>
+               </children></AnchorPane>
+            <Separator prefWidth="200.0" />
             <Label layoutX="10.0" layoutY="10.0" text="Agenda">
                <padding>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
@@ -110,14 +146,6 @@
                            <children>
                               <VBox prefHeight="331.0" prefWidth="399.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Label text="Heart Rate">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                       <padding>
-                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                                       </padding>
-                                    </Label>
                                     <MenuBar minWidth="-Infinity">
                                       <menus>
                                         <Menu mnemonicParsing="false" text="File">
@@ -137,7 +165,7 @@
                                         </Menu>
                                       </menus>
                                     </MenuBar>
-                                    <LineChart AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+                                    <LineChart fx:id="heartRateChart" legendVisible="false" title="Heart Rate" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
                                       <xAxis>
                                         <CategoryAxis side="BOTTOM" />
                                       </xAxis>
@@ -153,14 +181,6 @@
                            <children>
                               <VBox prefHeight="331.0" prefWidth="399.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Label text="Respiratory Rate">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                       <padding>
-                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                                       </padding>
-                                    </Label>
                                     <MenuBar minWidth="-Infinity">
                                       <menus>
                                         <Menu mnemonicParsing="false" text="File">
@@ -180,7 +200,7 @@
                                         </Menu>
                                       </menus>
                                     </MenuBar>
-                                    <LineChart VBox.vgrow="ALWAYS">
+                                    <LineChart fx:id="respiratoryRateChart" legendVisible="false" title="Respiratory Rate" VBox.vgrow="ALWAYS">
                                       <xAxis>
                                         <CategoryAxis side="BOTTOM" />
                                       </xAxis>
@@ -204,14 +224,6 @@
                            <children>
                               <VBox prefHeight="331.0" prefWidth="399.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Label text="Blood Preasure">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                       <padding>
-                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                                       </padding>
-                                    </Label>
                                     <MenuBar minWidth="-Infinity">
                                       <menus>
                                         <Menu mnemonicParsing="false" text="File">
@@ -231,7 +243,7 @@
                                         </Menu>
                                       </menus>
                                     </MenuBar>
-                                    <LineChart VBox.vgrow="ALWAYS">
+                                    <LineChart fx:id="bloodPreasureChart" legendVisible="false" title="Blood Preasure" VBox.vgrow="ALWAYS">
                                       <xAxis>
                                         <CategoryAxis side="BOTTOM" />
                                       </xAxis>
@@ -247,14 +259,6 @@
                            <children>
                               <VBox prefHeight="331.0" prefWidth="399.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Label text="Body Temperature">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                       <padding>
-                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                                       </padding>
-                                    </Label>
                                     <MenuBar minWidth="-Infinity">
                                       <menus>
                                         <Menu mnemonicParsing="false" text="File">
@@ -274,7 +278,7 @@
                                         </Menu>
                                       </menus>
                                     </MenuBar>
-                                    <LineChart VBox.vgrow="ALWAYS">
+                                    <LineChart fx:id="bodyTemperatureChart" legendVisible="false" title="Body Temperature" VBox.vgrow="ALWAYS">
                                       <xAxis>
                                         <CategoryAxis side="BOTTOM" />
                                       </xAxis>
