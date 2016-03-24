@@ -1,16 +1,15 @@
 package com.cps406_s4_group7_w16.GUI;
 
-import com.cps406_s4_group7_w16.PatientInfo.*;
-import com.cps406_s4_group7_w16.BioInfo.*;
-import com.cps406_s4_group7_w16.Security.*;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 
+import com.cps406_s4_group7_w16.PatientInfo.Agenda;
+import com.cps406_s4_group7_w16.PatientInfo.AgendaEvent;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -23,15 +22,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MainDisplayController implements Initializable {
 
@@ -55,69 +54,49 @@ public class MainDisplayController implements Initializable {
 	@FXML
 	ComboBox<String> am_pm;
 
+	
+	private Timeline timeline;
+	private SimpleIntegerProperty lastX = new SimpleIntegerProperty(0);
+	private XYChart.Series<Number, Number> series;
+	private Random rand = new Random();
+	private ObservableList<XYChart.Series<Number, Number>> data = FXCollections.observableArrayList();
+	@FXML
+	private NumberAxis xAxis = new NumberAxis(); //xAxis
+	@FXML
+	private NumberAxis yAxis = new NumberAxis(); //yAxis
+	
+	
+	
 	@FXML
 	LineChart<Number,Number> heartRateChart;
 	@FXML
 	LineChart<Number,Number> bloodPreasureChart;
 	@FXML
-	LineChart<Number,Number> respiratoryRateChart;
+	LineChart<Number, Number> respiratoryRateChart;
 	@FXML
-	LineChart<String,Number> bodyTemperatureChart;
-	
-	
-	Timer timer = new Timer();
-	TimerTask task;
-	Random dice = new Random();
+	LineChart<Number, Number> bodyTemperatureChart = new LineChart<>(xAxis,yAxis);
+
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		displayAgenda();
+		//Timeline Initizalization-----------------------------------------------------------
+		timeline = new Timeline(new KeyFrame(Duration.millis(1000),e ->{
+			lastX.set(lastX.add(1).get());
+			System.out.println(lastX.get() + " seconds have passed");
+			series.getData().add(new XYChart.Data<Number,Number>(lastX.get(),rand.nextInt(100)));
+			if(series.getData().size() > 10)
+				series.getData().remove(0);
+		}));
+		timeline.setCycleCount(Timeline.INDEFINITE);
+		updateTemperature();
 
-		hour.setItems(FXCollections.observableArrayList("00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
-				"10", "11", "12"));
-		minute.setItems(FXCollections.observableArrayList("00", "05", "10", "15", "20", "25", "30", "35", "40", "45",
-				"50", "55"));
-		am_pm.setItems(FXCollections.observableArrayList("AM","PM"));
-		hour.setValue("12");
-		minute.setValue("00");
-		am_pm.setValue("AM");
-		time.setCellValueFactory(new PropertyValueFactory<AgendaEvent, Integer>("Time"));
-		event.setCellValueFactory(new PropertyValueFactory<AgendaEvent, String>("Event"));
-
-		schedule.setItems(agenda.getAgenda());
-		
-		schedule.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>(){
-
-			@Override
-			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
-				index.set(agenda.getAgenda().indexOf(newValue));
-				System.out.println("OK index is :" + agenda.getAgenda().indexOf(newValue));
-			}});
+		//--------------------------------------------------------------------------------------
 	
-		
-		XYChart.Series<String,Number> series = new XYChart.Series<String,Number>();
-		
-		
-		
-		series.getData().add(new XYChart.Data<String,Number>("0",0));
-	
-		bodyTemperatureChart.getData().add(series);
-
-		task = new TimerTask(){
-			int secondsPassed = 0;
-			@Override
-			public void run() {
-				secondsPassed++;
-				System.out.println(secondsPassed);
-				int number;
-				number = 1+dice.nextInt(6);
-				series.getData().add(new XYChart.Data<String,Number>(String.valueOf(secondsPassed),number));
-			}
-			
-		};
-	
-		timer.scheduleAtFixedRate(task, 1000, 1000);
 	}
-
+	
+	
+	
 	public void displayPatientSimulator() throws IOException {
 		System.out.println("Patient Control");
 
@@ -132,7 +111,7 @@ public class MainDisplayController implements Initializable {
 		window.show();
 	}
 
-	public void addEventButton(){
+	public void addAgendaEntryButton(){
 		System.out.println("Add");
 	
 		String tempStringTime = hour.getValue() + minute.getValue(); 
@@ -162,7 +141,7 @@ public class MainDisplayController implements Initializable {
 
 	}
 
-	public void removeEventButton(){
+	public void removeAgendaEntryButton(){
 		int i = index.get();
 		if(i > -1){
 			agenda.getAgenda().remove(i);
@@ -170,6 +149,15 @@ public class MainDisplayController implements Initializable {
 		}
 	}
 	
+	public void startSimulationButton(){
+		
+	}
+
+
+	public void exitButton(){
+		//TODO: Figure out how to access outter class from inner class
+		System.exit(0);
+	}
 	private void clearForm() {
 		eventName.clear();
 		hour.getSelectionModel().clearSelection();
@@ -179,7 +167,28 @@ public class MainDisplayController implements Initializable {
 		minute.setValue("00");
 		am_pm.setValue("AM");
 	}
+	private void displayAgenda(){
+		hour.setItems(FXCollections.observableArrayList("00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
+				"10", "11", "12"));
+		minute.setItems(FXCollections.observableArrayList("00", "05", "10", "15", "20", "25", "30", "35", "40", "45",
+				"50", "55"));
+		am_pm.setItems(FXCollections.observableArrayList("AM","PM"));
+		hour.setValue("12");
+		minute.setValue("00");
+		am_pm.setValue("AM");
+		time.setCellValueFactory(new PropertyValueFactory<AgendaEvent, Integer>("Time"));
+		event.setCellValueFactory(new PropertyValueFactory<AgendaEvent, String>("Event"));
 
+		schedule.setItems(agenda.getAgenda());
+		
+		schedule.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>(){
+
+			@Override
+			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
+				index.set(agenda.getAgenda().indexOf(newValue));
+				System.out.println("OK index is :" + agenda.getAgenda().indexOf(newValue));
+			}});
+	}
 	private void updateHeartRate(){
 	
 	}
@@ -190,6 +199,14 @@ public class MainDisplayController implements Initializable {
 		
 	}
 	private void updateTemperature(){
+		xAxis.setForceZeroInRange(false);
+		bodyTemperatureChart.setCreateSymbols(true);
+		bodyTemperatureChart.setData(data);
 		
+		series = new XYChart.Series<>();
+		data.add(series);
+		lastX.set(0);
+		timeline.playFromStart();
 	}
+	
 }

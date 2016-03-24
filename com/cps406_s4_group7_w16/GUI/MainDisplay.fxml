@@ -15,9 +15,10 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
+                  <MenuItem mnemonicParsing="false" onAction="#startSimulationButton" text="Start Simulation" />
               <MenuItem mnemonicParsing="false" onAction="#displayPatientSimulator" text="Patient Simulate Controls" />
                   <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Exit" />
+                  <MenuItem mnemonicParsing="false" onAction="#exitButton" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
@@ -45,8 +46,8 @@
                   <Label layoutX="187.0" layoutY="10.0" text=":" />
                   <ComboBox fx:id="minute" layoutX="215.0" layoutY="10.0" prefWidth="150.0" promptText="00" />
                   <ComboBox fx:id="am_pm" layoutX="393.0" layoutY="10.0" prefWidth="150.0" promptText="AM" />
-                  <Button mnemonicParsing="false" onAction="#addEventButton" text="Add Event" />
-                  <Button layoutX="1005.0" layoutY="15.0" mnemonicParsing="false" onAction="#removeEventButton" text="Remove Event" />
+                  <Button mnemonicParsing="false" onAction="#addAgendaEntryButton" text="Add Event" />
+                  <Button layoutX="1005.0" layoutY="15.0" mnemonicParsing="false" onAction="#removeAgendaEntryButton" text="Remove Event" />
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -167,7 +168,7 @@
                                     </MenuBar>
                                     <LineChart fx:id="heartRateChart" legendVisible="false" title="Heart Rate" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
                                       <xAxis>
-                                        <CategoryAxis side="BOTTOM" />
+                                        <NumberAxis side="BOTTOM" />
                                       </xAxis>
                                       <yAxis>
                                         <NumberAxis side="LEFT" />
@@ -202,7 +203,7 @@
                                     </MenuBar>
                                     <LineChart fx:id="respiratoryRateChart" legendVisible="false" title="Respiratory Rate" VBox.vgrow="ALWAYS">
                                       <xAxis>
-                                        <CategoryAxis side="BOTTOM" />
+                                        <NumberAxis side="BOTTOM" />
                                       </xAxis>
                                       <yAxis>
                                         <NumberAxis side="LEFT" />
@@ -245,7 +246,7 @@
                                     </MenuBar>
                                     <LineChart fx:id="bloodPreasureChart" legendVisible="false" title="Blood Preasure" VBox.vgrow="ALWAYS">
                                       <xAxis>
-                                        <CategoryAxis side="BOTTOM" />
+                                        <NumberAxis side="BOTTOM" />
                                       </xAxis>
                                       <yAxis>
                                         <NumberAxis side="LEFT" />
@@ -280,10 +281,10 @@
                                     </MenuBar>
                                     <LineChart fx:id="bodyTemperatureChart" legendVisible="false" title="Body Temperature" VBox.vgrow="ALWAYS">
                                       <xAxis>
-                                        <CategoryAxis side="BOTTOM" />
+                                        <NumberAxis side="BOTTOM" fx:id="xAxis" />
                                       </xAxis>
                                       <yAxis>
-                                        <NumberAxis side="LEFT" />
+                                        <NumberAxis fx:id="yAxis" side="LEFT" />
                                       </yAxis>
                                     </LineChart>
                                  </children>
