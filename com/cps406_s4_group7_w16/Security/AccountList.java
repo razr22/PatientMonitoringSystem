@@ -32,11 +32,11 @@ public class AccountList {
 	public int isValidUsernameAndPassword(String username, String password){
 		for(Account a : accountList){
 			if(a.getUsername() == username && a.getPassword() == password){
-				return 1;
+				return 0;
 			}
 		}
 		
 		//invalid username and password 
-		return 0;
+		return 1;
 	}
 }
