@@ -168,10 +168,10 @@
                                     </MenuBar>
                                     <LineChart fx:id="heartRateChart" legendVisible="false" title="Heart Rate" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
                                       <xAxis>
-                                        <NumberAxis side="BOTTOM" />
+                                        <NumberAxis fx:id="HRxAxis" side="BOTTOM" />
                                       </xAxis>
                                       <yAxis>
-                                        <NumberAxis side="LEFT" />
+                                        <NumberAxis fx:id="HRyAxis" side="LEFT" />
                                       </yAxis>
                                     </LineChart>
                                  </children>
@@ -203,10 +203,10 @@
                                     </MenuBar>
                                     <LineChart fx:id="respiratoryRateChart" legendVisible="false" title="Respiratory Rate" VBox.vgrow="ALWAYS">
                                       <xAxis>
-                                        <NumberAxis side="BOTTOM" />
+                                        <NumberAxis fx:id="RRxAxis" side="BOTTOM" />
                                       </xAxis>
                                       <yAxis>
-                                        <NumberAxis side="LEFT" />
+                                        <NumberAxis fx:id="RRyAxis" side="LEFT" />
                                       </yAxis>
                                     </LineChart>
                                  </children>
@@ -246,10 +246,10 @@
                                     </MenuBar>
                                     <LineChart fx:id="bloodPreasureChart" legendVisible="false" title="Blood Preasure" VBox.vgrow="ALWAYS">
                                       <xAxis>
-                                        <NumberAxis side="BOTTOM" />
+                                        <NumberAxis fx:id="BPxAxis" side="BOTTOM" />
                                       </xAxis>
                                       <yAxis>
-                                        <NumberAxis side="LEFT" />
+                                        <NumberAxis fx:id="BPyAxis" side="LEFT" />
                                       </yAxis>
                                     </LineChart>
                                  </children>
@@ -281,10 +281,10 @@
                                     </MenuBar>
                                     <LineChart fx:id="bodyTemperatureChart" legendVisible="false" title="Body Temperature" VBox.vgrow="ALWAYS">
                                       <xAxis>
-                                        <NumberAxis side="BOTTOM" fx:id="xAxis" />
+                                        <NumberAxis fx:id="BTxAxis" side="BOTTOM" />
                                       </xAxis>
                                       <yAxis>
-                                        <NumberAxis fx:id="yAxis" side="LEFT" />
+                                        <NumberAxis fx:id="BTyAxis" side="LEFT" />
                                       </yAxis>
                                     </LineChart>
                                  </children>

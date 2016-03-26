@@ -8,13 +8,14 @@
 
 package com.cps406_s4_group7_w16.GUI;
 
+import com.cps406_s4_group7_w16.BioInfo.*;
+import com.cps406_s4_group7_w16.PatientInfo.*;
+import com.cps406_s4_group7_w16.Security.*;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
-
-import com.cps406_s4_group7_w16.PatientInfo.Agenda;
-import com.cps406_s4_group7_w16.PatientInfo.AgendaEvent;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -42,6 +43,7 @@ import javafx.util.Duration;
 
 public class MainDisplayController implements Initializable {
 
+	// Agenda Variables----------------------------------------------------------------
 	Agenda agenda = new Agenda();
 
 	@FXML
@@ -52,7 +54,9 @@ public class MainDisplayController implements Initializable {
 	TableColumn<AgendaEvent, String> event;
 
 	private IntegerProperty index = new SimpleIntegerProperty();
+	// Agenda Variables----------------------------------------------------------------
 
+	// Form Variables-----------------------------------------------------------------
 	@FXML
 	TextField eventName;
 	@FXML
@@ -61,25 +65,54 @@ public class MainDisplayController implements Initializable {
 	ComboBox<String> minute;
 	@FXML
 	ComboBox<String> am_pm;
+	// Form Variables-----------------------------------------------------------------
 
+	// Timeline Variables----------------------------------------------------------------------
 	private Timeline timeline;
-	private SimpleIntegerProperty lastX = new SimpleIntegerProperty(0);
-	private XYChart.Series<Number, Number> series;
-	private Random rand = new Random();
-	private ObservableList<XYChart.Series<Number, Number>> data = FXCollections.observableArrayList();
-	@FXML
-	private NumberAxis xAxis = new NumberAxis(); // xAxis
-	@FXML
-	private NumberAxis yAxis = new NumberAxis(); // yAxis
+	private SimpleIntegerProperty secondsPassed = new SimpleIntegerProperty(0);
+	// Timeline Variables----------------------------------------------------------------------
+
+	private XYChart.Series<Number, Number> heartRateSeries = new XYChart.Series<>();
+	private XYChart.Series<Number, Number> respiratoryRateSeries = new XYChart.Series<>();
+	private XYChart.Series<Number, Number> bloodPressureSeries = new XYChart.Series<>();
+	private XYChart.Series<Number, Number> bodyTempSeries = new XYChart.Series<>();
+
+	private Generator heartRateGen = new Generator(60,100); // beats per minute
+	private Generator respiratoryRateGen = new Generator(12, 16); // breaths per minute
+	//private Generator bloodPressureGen = new Generator(); // systolic over diastolic: http://www.heart.org/HEARTORG/Conditions/HighBloodPressure/AboutHighBloodPressure/Understanding-Blood-Pressure-Readings_UCM_301764_Article.jsp#.VvXBv_krKUk
+	private TemperatureGenerator tempGen = new TemperatureGenerator(36, 38); // degrees Celsius 
+
+	private ObservableList<XYChart.Series<Number, Number>> heartRateData = FXCollections.observableArrayList();
+	private ObservableList<XYChart.Series<Number, Number>> respiratoryRateData = FXCollections.observableArrayList();
+	private ObservableList<XYChart.Series<Number, Number>> bloodPressureData = FXCollections.observableArrayList();
+	private ObservableList<XYChart.Series<Number, Number>> bodyTempData = FXCollections.observableArrayList();
 
 	@FXML
-	LineChart<Number, Number> heartRateChart;
+	private NumberAxis HRxAxis = new NumberAxis(); // HEART RATE xAxis
 	@FXML
-	LineChart<Number, Number> bloodPreasureChart;
+	private NumberAxis HRyAxis = new NumberAxis(); // HEART RATE yAxis
 	@FXML
-	LineChart<Number, Number> respiratoryRateChart;
+	private NumberAxis RRxAxis = new NumberAxis(); // RESPIRATORY RATE xAxis
 	@FXML
-	LineChart<Number, Number> bodyTemperatureChart = new LineChart<>(xAxis, yAxis);
+	private NumberAxis RRyAxis = new NumberAxis(); // RESPIRATORY RATE yAxis
+	@FXML
+	private NumberAxis BPxAxis = new NumberAxis(); // BLOOD PRESSURE xAxis
+	@FXML
+	private NumberAxis BPyAxis = new NumberAxis(); // BLOOD PRESSURE yAxis
+	@FXML
+	private NumberAxis BTxAxis = new NumberAxis(); // BODY TEMPERATURE xAxis
+	@FXML
+	private NumberAxis BTyAxis = new NumberAxis(); // BODY TEMPERATURE yAxis
+	
+
+	@FXML
+	LineChart<Number, Number> heartRateChart = new LineChart<>(HRxAxis, HRyAxis);
+	@FXML
+	LineChart<Number, Number> bloodPreasureChart = new LineChart<>(BPxAxis, BPyAxis);
+	@FXML
+	LineChart<Number, Number> respiratoryRateChart = new LineChart<>(RRxAxis, RRyAxis);
+	@FXML
+	LineChart<Number, Number> bodyTemperatureChart = new LineChart<>(BTxAxis, BTyAxis);
 
 	/**
 	 * A method from "Initializable" that must be implemented. This is
@@ -97,17 +130,44 @@ public class MainDisplayController implements Initializable {
 		// Timeline
 		// Initizalization-----------------------------------------------------------
 		timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
-			lastX.set(lastX.add(1).get());
-			System.out.println(lastX.get() + " seconds have passed");
-			series.getData().add(new XYChart.Data<Number, Number>(lastX.get(), rand.nextInt(100)));
-			if (series.getData().size() > 10)
-				series.getData().remove(0);
+			
+			secondsPassed.set(secondsPassed.add(1).get());
+			System.out.println("Seconds Passed: " + secondsPassed.get());
+			
+			updateHeartRate(secondsPassed.get(), heartRateGen.generate());
+			updateRespiratoryRate(secondsPassed.get(),respiratoryRateGen.generate());
+			updateTemperature(secondsPassed.get(), tempGen.generate());
+
+			if(heartRateSeries.getData().size() > 10)
+				heartRateSeries.getData().remove(0);
+			if (respiratoryRateSeries.getData().size() > 10)
+				respiratoryRateSeries.getData().remove(0);
+			if (bodyTempSeries.getData().size() > 10)
+				bodyTempSeries.getData().remove(0);
+
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
-		updateTemperature();
-
 		// --------------------------------------------------------------------------------------
+		
+		HRxAxis.setForceZeroInRange(false);
+		HRyAxis.setForceZeroInRange(false);
+		heartRateChart.setCreateSymbols(true);
+		heartRateData.add(heartRateSeries);
+		heartRateChart.setData(heartRateData);
+		
+		RRxAxis.setForceZeroInRange(false);
+		RRyAxis.setForceZeroInRange(false);
+		respiratoryRateChart.setCreateSymbols(true);
+		respiratoryRateData.add(respiratoryRateSeries);
+		respiratoryRateChart.setData(respiratoryRateData);
+		
+		BTxAxis.setForceZeroInRange(false);
+		BTyAxis.setForceZeroInRange(false);
+		bodyTemperatureChart.setCreateSymbols(true);
+		bodyTempData.add(bodyTempSeries);
+		bodyTemperatureChart.setData(bodyTempData);
 
+		timeline.playFromStart();
 	}
 
 	/**
@@ -237,27 +297,24 @@ public class MainDisplayController implements Initializable {
 		});
 	}
 
-	private void updateHeartRate() {
+	private void updateHeartRate(int second, double heartRate) {
+		System.out.println("	Heart Rate: " + heartRate);
+		heartRateSeries.getData().add(new XYChart.Data<Number, Number>(second, heartRate));
+	}
+
+	private void updateRespiratoryRate(int second, double breathRate) {
+		System.out.println("	Breath Rate: " + breathRate);
+		respiratoryRateSeries.getData().add(new XYChart.Data<Number, Number>(second,breathRate));
+	}
+
+	private void updateBloodPressure() {
 
 	}
 
-	private void updateRespiratoryRate() {
+	private void updateTemperature(int second, double temp) {
+		System.out.println("	Temperature: " + temp);
+		bodyTempSeries.getData().add(new XYChart.Data<Number, Number>(second, temp));
 
-	}
-
-	private void updateBloodPreasure() {
-
-	}
-
-	private void updateTemperature() {
-		xAxis.setForceZeroInRange(false);
-		bodyTemperatureChart.setCreateSymbols(true);
-		bodyTemperatureChart.setData(data);
-
-		series = new XYChart.Series<>();
-		data.add(series);
-		lastX.set(0);
-		timeline.playFromStart();
 	}
 
 }

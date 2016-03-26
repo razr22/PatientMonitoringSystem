@@ -1,10 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -51,7 +51,10 @@
             </HBox>
             <HBox layoutX="10.0" layoutY="35.0" prefHeight="250.0" prefWidth="600.0" spacing="200.0">
                <children>
-                  <Slider orientation="VERTICAL" />
+                  <Slider orientation="VERTICAL">
+                     <HBox.margin>
+                        <Insets left="215.0" />
+                     </HBox.margin></Slider>
                </children>
                <padding>
                   <Insets bottom="10.0" left="75.0" right="10.0" top="10.0" />
