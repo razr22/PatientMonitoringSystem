@@ -43,7 +43,8 @@ import javafx.util.Duration;
 
 public class MainDisplayController implements Initializable {
 
-	// Agenda Variables----------------------------------------------------------------
+	// Agenda
+	// Variables----------------------------------------------------------------
 	Agenda agenda = new Agenda();
 
 	@FXML
@@ -54,9 +55,11 @@ public class MainDisplayController implements Initializable {
 	TableColumn<AgendaEvent, String> event;
 
 	private IntegerProperty index = new SimpleIntegerProperty();
-	// Agenda Variables----------------------------------------------------------------
+	// Agenda
+	// Variables----------------------------------------------------------------
 
-	// Form Variables-----------------------------------------------------------------
+	// Form
+	// Variables-----------------------------------------------------------------
 	@FXML
 	TextField eventName;
 	@FXML
@@ -65,28 +68,45 @@ public class MainDisplayController implements Initializable {
 	ComboBox<String> minute;
 	@FXML
 	ComboBox<String> am_pm;
-	// Form Variables-----------------------------------------------------------------
+	// Form
+	// Variables-----------------------------------------------------------------
 
-	// Timeline Variables----------------------------------------------------------------------
+	// Timeline
+	// Variables----------------------------------------------------------------------
 	private Timeline timeline;
 	private SimpleIntegerProperty secondsPassed = new SimpleIntegerProperty(0);
-	// Timeline Variables----------------------------------------------------------------------
+	// Timeline
+	// Variables----------------------------------------------------------------------
 
+	// Chart
+	// Series--------------------------------------------------------------------------
 	private XYChart.Series<Number, Number> heartRateSeries = new XYChart.Series<>();
 	private XYChart.Series<Number, Number> respiratoryRateSeries = new XYChart.Series<>();
 	private XYChart.Series<Number, Number> bloodPressureSeries = new XYChart.Series<>();
 	private XYChart.Series<Number, Number> bodyTempSeries = new XYChart.Series<>();
+	// Chart
+	// Series--------------------------------------------------------------------------
 
-	private Generator heartRateGen = new Generator(60,100); // beats per minute
+	// Generator
+	// objects-------------------------------------------------------------------
+	private Generator heartRateGen = new Generator(60, 100); // beats per minute
 	private Generator respiratoryRateGen = new Generator(12, 16); // breaths per minute
 	//private Generator bloodPressureGen = new Generator(); // systolic over diastolic: http://www.heart.org/HEARTORG/Conditions/HighBloodPressure/AboutHighBloodPressure/Understanding-Blood-Pressure-Readings_UCM_301764_Article.jsp#.VvXBv_krKUk
-	private TemperatureGenerator tempGen = new TemperatureGenerator(36, 38); // degrees Celsius 
+	private TemperatureGenerator tempGen = new TemperatureGenerator(36, 38); // degrees Celsius
+	// Generator
+	// objects-------------------------------------------------------------------
 
+	// Data
+	// Lists--------------------------------------------------------------------------------------------------------
 	private ObservableList<XYChart.Series<Number, Number>> heartRateData = FXCollections.observableArrayList();
 	private ObservableList<XYChart.Series<Number, Number>> respiratoryRateData = FXCollections.observableArrayList();
 	private ObservableList<XYChart.Series<Number, Number>> bloodPressureData = FXCollections.observableArrayList();
 	private ObservableList<XYChart.Series<Number, Number>> bodyTempData = FXCollections.observableArrayList();
+	// Data
+	// Lists--------------------------------------------------------------------------------------------------------
 
+	// Chart
+	// Axes---------------------------------------------------------------------------
 	@FXML
 	private NumberAxis HRxAxis = new NumberAxis(); // HEART RATE xAxis
 	@FXML
@@ -103,8 +123,11 @@ public class MainDisplayController implements Initializable {
 	private NumberAxis BTxAxis = new NumberAxis(); // BODY TEMPERATURE xAxis
 	@FXML
 	private NumberAxis BTyAxis = new NumberAxis(); // BODY TEMPERATURE yAxis
-	
+	// Chart
+	// Axes---------------------------------------------------------------------------
 
+	// Line
+	// Charts----------------------------------------------------------------------------------
 	@FXML
 	LineChart<Number, Number> heartRateChart = new LineChart<>(HRxAxis, HRyAxis);
 	@FXML
@@ -113,6 +136,8 @@ public class MainDisplayController implements Initializable {
 	LineChart<Number, Number> respiratoryRateChart = new LineChart<>(RRxAxis, RRyAxis);
 	@FXML
 	LineChart<Number, Number> bodyTemperatureChart = new LineChart<>(BTxAxis, BTyAxis);
+	// Line
+	// Charts----------------------------------------------------------------------------------
 
 	/**
 	 * A method from "Initializable" that must be implemented. This is
@@ -130,43 +155,18 @@ public class MainDisplayController implements Initializable {
 		// Timeline
 		// Initizalization-----------------------------------------------------------
 		timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
-			
+
 			secondsPassed.set(secondsPassed.add(1).get());
 			System.out.println("Seconds Passed: " + secondsPassed.get());
-			
-			updateHeartRate(secondsPassed.get(), heartRateGen.generate());
-			updateRespiratoryRate(secondsPassed.get(),respiratoryRateGen.generate());
-			updateTemperature(secondsPassed.get(), tempGen.generate());
 
-			if(heartRateSeries.getData().size() > 10)
-				heartRateSeries.getData().remove(0);
-			if (respiratoryRateSeries.getData().size() > 10)
-				respiratoryRateSeries.getData().remove(0);
-			if (bodyTempSeries.getData().size() > 10)
-				bodyTempSeries.getData().remove(0);
+			updateHeartRate(secondsPassed.get(), heartRateGen.generate());
+			updateRespiratoryRate(secondsPassed.get(), respiratoryRateGen.generate());
+			updateTemperature(secondsPassed.get(), tempGen.generate());
 
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		// --------------------------------------------------------------------------------------
-		
-		HRxAxis.setForceZeroInRange(false);
-		HRyAxis.setForceZeroInRange(false);
-		heartRateChart.setCreateSymbols(true);
-		heartRateData.add(heartRateSeries);
-		heartRateChart.setData(heartRateData);
-		
-		RRxAxis.setForceZeroInRange(false);
-		RRyAxis.setForceZeroInRange(false);
-		respiratoryRateChart.setCreateSymbols(true);
-		respiratoryRateData.add(respiratoryRateSeries);
-		respiratoryRateChart.setData(respiratoryRateData);
-		
-		BTxAxis.setForceZeroInRange(false);
-		BTyAxis.setForceZeroInRange(false);
-		bodyTemperatureChart.setCreateSymbols(true);
-		bodyTempData.add(bodyTempSeries);
-		bodyTemperatureChart.setData(bodyTempData);
-
+		chartInit();
 		timeline.playFromStart();
 	}
 
@@ -255,6 +255,32 @@ public class MainDisplayController implements Initializable {
 	}
 
 	/**
+	 * This method is used to initialize all four charts to allow x and y Axis
+	 * to adjust to appropriate ranges. Also allows charts to have visible data
+	 * points on graph. Adds each respective series to respective data lists,
+	 * and adds each respective data lists to respective charts.
+	 */
+	private void chartInit() {
+		HRxAxis.setForceZeroInRange(false);
+		HRyAxis.setForceZeroInRange(false);
+		heartRateChart.setCreateSymbols(true);
+		heartRateData.add(heartRateSeries);
+		heartRateChart.setData(heartRateData);
+
+		RRxAxis.setForceZeroInRange(false);
+		RRyAxis.setForceZeroInRange(false);
+		respiratoryRateChart.setCreateSymbols(true);
+		respiratoryRateData.add(respiratoryRateSeries);
+		respiratoryRateChart.setData(respiratoryRateData);
+
+		BTxAxis.setForceZeroInRange(false);
+		BTyAxis.setForceZeroInRange(false);
+		bodyTemperatureChart.setCreateSymbols(true);
+		bodyTempData.add(bodyTempSeries);
+		bodyTemperatureChart.setData(bodyTempData);
+	}
+
+	/**
 	 * This method is used to reset the textbox and dropdowns used for Agenda
 	 * entry to its initial values. This method is used after every time an
 	 * agenda entry is made.
@@ -300,11 +326,15 @@ public class MainDisplayController implements Initializable {
 	private void updateHeartRate(int second, double heartRate) {
 		System.out.println("	Heart Rate: " + heartRate);
 		heartRateSeries.getData().add(new XYChart.Data<Number, Number>(second, heartRate));
+		if (heartRateSeries.getData().size() > 10)
+			heartRateSeries.getData().remove(0);
 	}
 
 	private void updateRespiratoryRate(int second, double breathRate) {
 		System.out.println("	Breath Rate: " + breathRate);
-		respiratoryRateSeries.getData().add(new XYChart.Data<Number, Number>(second,breathRate));
+		respiratoryRateSeries.getData().add(new XYChart.Data<Number, Number>(second, breathRate));
+		if (respiratoryRateSeries.getData().size() > 10)
+			respiratoryRateSeries.getData().remove(0);
 	}
 
 	private void updateBloodPressure() {
@@ -314,6 +344,8 @@ public class MainDisplayController implements Initializable {
 	private void updateTemperature(int second, double temp) {
 		System.out.println("	Temperature: " + temp);
 		bodyTempSeries.getData().add(new XYChart.Data<Number, Number>(second, temp));
+		if (bodyTempSeries.getData().size() > 10)
+			bodyTempSeries.getData().remove(0);
 
 	}
 
