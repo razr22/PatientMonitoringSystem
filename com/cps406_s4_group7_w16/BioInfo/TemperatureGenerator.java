@@ -8,21 +8,21 @@ public class TemperatureGenerator extends Generator {
 	
 	/**
 	 * Class constructor that uses a lower and an upper bound.
-	 * @param lower	lower bound of number to be generated.
-	 * @param upper	upper bound of number to be generated.
+	 * @param mid	midpoint of number to be generated.
+	 * @param dev	deviation from midpoint.
 	 */
-	public TemperatureGenerator(int lower, int upper) {
-		super(lower, upper);
+	public TemperatureGenerator(int mid, int dev) {
+		super(mid, dev);
 	}
 	
 	/**
 	 * Class constructor that uses an upper and a lower bound as well as a boolean to determine which unit system to use.
-	 * @param lower	lower bound of number to be generated.
-	 * @param upper	upper bound of number to be generated.
+	 * @param mid	midpoint of number to be generated.
+	 * @param upper	deviation from midpoint.
 	 * @param um
 	 */
-	public TemperatureGenerator(int lower, int upper, boolean um){
-		super(lower, upper, um);
+	public TemperatureGenerator(int mid, int dev, boolean um){
+		super(mid, dev, um);
 	}
 	
 	/**
@@ -34,16 +34,16 @@ public class TemperatureGenerator extends Generator {
 		//conversion from metric to imperial.
 		if(um == false && usesMetricSystem == true){
 			usesMetricSystem = false;
-			lowerBound = (int)((lowerBound * CONVERSION_MULTIPLIER) + CONVERSION_OFFSET);
-			upperBound = (int)((upperBound * CONVERSION_MULTIPLIER) + CONVERSION_OFFSET);
+			midpoint = (int)((midpoint * CONVERSION_MULTIPLIER) + CONVERSION_OFFSET);
+			deviation = (int)((deviation * CONVERSION_MULTIPLIER) + CONVERSION_OFFSET);
 			return;
 		}
 		
 		//conversion from imperial to metric.
 		if(um == true && usesMetricSystem == false){
 			usesMetricSystem = false;
-			lowerBound = (int)((lowerBound - CONVERSION_OFFSET) / CONVERSION_MULTIPLIER);
-			upperBound = (int)((upperBound - CONVERSION_OFFSET) / CONVERSION_MULTIPLIER);
+			midpoint = (int)((midpoint - CONVERSION_OFFSET) / CONVERSION_MULTIPLIER);
+			deviation = (int)((deviation - CONVERSION_OFFSET) / CONVERSION_MULTIPLIER);
 			return;
 			
 		}

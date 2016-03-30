@@ -6,8 +6,8 @@ import java.lang.Math;
 public class Generator {
 	
 	protected boolean usesMetricSystem = true;
-	protected double upperBound;
-	protected double lowerBound;
+	protected double midpoint;
+	protected int deviation;
 
 	/**
 	 * Class constructor that uses an upper and lower bound as well as a boolean
@@ -21,9 +21,9 @@ public class Generator {
 	 *            boolean that holds the unit of which values are to be
 	 *            generated. true for metric system, false for imperial system.
 	 */
-	public Generator(double lower, double upper, boolean um) {
-		this.setUpperBound(upper);
-		this.setLowerBound(lower);
+	public Generator(double mid, int dev, boolean um) {
+		this.setDeviation(dev);
+		this.setMidpoint(mid);
 		this.usesMetricSystem = um;
 	}
 
@@ -35,9 +35,9 @@ public class Generator {
 	 * @param upper
 	 *            upper bound of number to be generated,
 	 */
-	public Generator(double lower, double upper) {
-		this.setUpperBound(upper);
-		this.setLowerBound(lower);
+	public Generator(double mid, int dev) {
+		this.setDeviation(dev);
+		this.setMidpoint(mid);
 	}
 
 	/**
@@ -47,12 +47,22 @@ public class Generator {
 	 * @return Double value in between lower and upper bounds.
 	 */
 	public double generate() {
-		double value;
+		double value = 0;
 		Random random = new Random();
-
+		int highOrLow = random.nextInt(2);
+		
 		// number from lowerBound to UpperBound.
-		value = (random.nextInt((int) upperBound - (int) lowerBound)) + (int) lowerBound;
-
+		//value = (random.nextInt((int) upperBound - (int) lowerBound)) + (int) lowerBound;
+		
+		//go higher to the midpoint
+		if(highOrLow == 0){
+			value = midpoint + (random.nextInt(deviation));		
+		}
+		
+		if(highOrLow == 1){
+			value = midpoint - (random.nextInt(deviation));
+		}
+		
 		// generating a decimal to add to the value.
 		value = value + random.nextDouble();
 
@@ -62,41 +72,30 @@ public class Generator {
 	}
 
 	/**
-	 * Getter method for upper bound.
+	 * Getter method for deviation.
 	 * 
-	 * @return upper bound of generator.
+	 * @return deviation of generator.
 	 */
-	public double getUpperBound() {
-		return upperBound;
+	public double getDeviation() {
+		return deviation;
 	}
 
 	/**
-	 * Setter method for upper bound.
+	 * Setter method for deviation.
 	 * 
 	 * @param upperBound
-	 *            Double value to become upper bound.
+	 *            Integer value to become deviation.
 	 */
-	public void setUpperBound(double upperBound) {
-		this.upperBound = upperBound;
+	public void setDeviation(int dev) {
+		this.deviation =  dev;
 	}
-
-	/**
-	 * Getter method for lower bound.
-	 * 
-	 * @return lower bound of generator.
-	 */
-	public double getLowerBound() {
-		return lowerBound;
+	
+	public void setMidpoint(double mid){
+		this.midpoint = mid;
 	}
-
-	/**
-	 * Setter method for lower bound.
-	 * 
-	 * @param lowerBound
-	 *            Double value to become lower bound.
-	 */
-	public void setLowerBound(double lowerBound) {
-		this.lowerBound = lowerBound;
+	
+	public double getMidpoint(){
+		return this.midpoint;
 	}
 
 }
