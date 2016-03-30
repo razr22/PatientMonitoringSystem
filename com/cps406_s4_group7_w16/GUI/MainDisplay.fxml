@@ -17,7 +17,7 @@
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#startSimulationButton" text="Start Simulation" />
               <MenuItem mnemonicParsing="false" onAction="#displayPatientSimulator" text="Patient Simulate Controls" />
-                  <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveButton" text="Save" />
                   <MenuItem mnemonicParsing="false" onAction="#exitButton" text="Exit" />
             </items>
           </Menu>

@@ -12,7 +12,9 @@ import com.cps406_s4_group7_w16.BioInfo.*;
 import com.cps406_s4_group7_w16.PatientInfo.*;
 import com.cps406_s4_group7_w16.Security.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -139,6 +141,10 @@ public class MainDisplayController implements Initializable {
 	// Line
 	// Charts----------------------------------------------------------------------------------
 
+	//Saved Data Variables
+	Log log = new Log();
+	VitalSign vitalSign = new VitalSign();
+	
 	/**
 	 * A method from "Initializable" that must be implemented. This is
 	 * implemented so that the program can go through an initialize phase, when
@@ -158,11 +164,17 @@ public class MainDisplayController implements Initializable {
 
 			secondsPassed.set(secondsPassed.add(1).get());
 			System.out.println("Seconds Passed: " + secondsPassed.get());
-
-			updateHeartRate(secondsPassed.get(), heartRateGen.generate());
-			updateRespiratoryRate(secondsPassed.get(), respiratoryRateGen.generate());
-			updateTemperature(secondsPassed.get(), tempGen.generate());
-
+			
+			vitalSign.setHeartRate(heartRateGen.generate());
+			//vitalSign.setBloodPressure(bodyT);
+			vitalSign.setRespiratoryRate(respiratoryRateGen.generate());
+			vitalSign.setBodyTemperature(tempGen.generate());
+			
+			updateHeartRate(secondsPassed.get(), vitalSign.getHeartRate());
+			updateRespiratoryRate(secondsPassed.get(), vitalSign.getRespiratoryRate());
+			updateTemperature(secondsPassed.get(), vitalSign.getBodyTemperature());
+			
+			log.addLogEntry(vitalSign);
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		// --------------------------------------------------------------------------------------
@@ -246,6 +258,9 @@ public class MainDisplayController implements Initializable {
 
 	}
 
+	public void saveButton() throws IOException{
+		log.saveLog("Rufus" + ".txt");
+	}
 	/**
 	 * Method used by the "Exit" file item. Exits program. TODO: Figure out how
 	 * to access outer class from inner class to exit
