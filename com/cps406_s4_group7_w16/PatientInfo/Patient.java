@@ -1,8 +1,12 @@
 package com.cps406_s4_group7_w16.PatientInfo;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
 public class Patient{
@@ -34,7 +38,9 @@ private double weight;
 	 * @throws FileNotFoundException
 	 */
 	public Patient(File file) throws FileNotFoundException{
+		
 		Scanner in = new Scanner(file);
+		
 		this.name = in.nextLine();
 		this.age = in.nextInt();
 		this.height = in.nextDouble();
@@ -42,6 +48,23 @@ private double weight;
 		in.close();
 	}
 	
+	
+	public void writeToFile(String filename) throws IOException{
+		BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+		
+		//converting to strings
+		String ageString =  age + "\n";
+		String heightString = height + "\n";
+		String weightString = weight + "\n";
+		
+		writer.write(this.getName() + "\n");
+		writer.write(ageString, 0, ageString.length());
+		writer.write(heightString, 0, heightString.length());
+		writer.write(weightString, 0, weightString.length());
+		writer.close();
+		
+		
+	}
 	
 	public String getName() {
 		return name;

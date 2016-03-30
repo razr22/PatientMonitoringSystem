@@ -54,4 +54,8 @@ public class VitalSign {
 		this.respiratoryRate = respiratoryRate;
 	}
 
+	public String toString(){
+		String returnString = "[VitalSign] -> Blood Pressure = " + this.getBloodPressure() + ", Body Temperature = " + this.getBodyTemperature() + ", Heart Rate = " + this.getHeartRate() + ", Respiratory Rate = " + this.getRespiratoryRate();
+		return returnString;
+	}
 }

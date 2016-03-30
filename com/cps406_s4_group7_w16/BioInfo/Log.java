@@ -1,6 +1,9 @@
 package com.cps406_s4_group7_w16.BioInfo;
 
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
@@ -29,24 +32,22 @@ public class Log {
 	 *
 	 * @return Integer representing whether file i/o was completed successfully.
 	 *         Method returns 1 upon successful completion, 0 if not successful.
-	 * @throws UnsupportedEncodingException 
-	 * @throws FileNotFoundException 
+	 * @throws IOException 
 	 */
-	public int saveLog(String filename) throws FileNotFoundException, UnsupportedEncodingException {
-		PrintWriter writer = new PrintWriter(filename, "UTF-8");
+	public int saveLog(String filename) throws IOException {
+
+		BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
 		
 		//formatting for the header so that the data is more organized.
-		writer.println("Blood Pressure\tBody Temperature\tHeart Rate\tRespiratory Rate");
-		writer.println("-------------------------------------------------------------");
-		writer.println();
+		writer.write("\nBlood Pressure\tBody Temperature\tHeart Rate\tRespiratory Rate\n");
+		writer.write("-------------------------------------------------------------\n");
 		
 		//printing each vitalSign in log to file.
 		for(VitalSign vs : vitalLog){
-			writer.print(vs.getBloodPressure() + "\t\t\t");
-			writer.print(vs.getBodyTemperature() + "\t\t\t\t");
-			writer.print(vs.getHeartRate() + "\t\t");
-			writer.print(vs.getRespiratoryRate() + "\t");
-			writer.println();
+			writer.write(vs.getBloodPressure() + "\t\t\t");
+			writer.write(vs.getBodyTemperature() + "\t\t\t\t");
+			writer.write(vs.getHeartRate() + "\t\t");
+			writer.write(vs.getRespiratoryRate() + "\t\n");
 		}
 		
 		//closing the writer.
