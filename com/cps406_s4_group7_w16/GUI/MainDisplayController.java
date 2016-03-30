@@ -89,10 +89,10 @@ public class MainDisplayController implements Initializable {
 
 	// Generator
 	// objects-------------------------------------------------------------------
-	private Generator heartRateGen = new Generator(60, 100); // beats per minute
-	private Generator respiratoryRateGen = new Generator(12, 16); // breaths per minute
+	private Generator heartRateGen = new Generator(80, 20); // beats per minute
+	private Generator respiratoryRateGen = new Generator(16, 4); // breaths per minute
 	//private Generator bloodPressureGen = new Generator(); // systolic over diastolic: http://www.heart.org/HEARTORG/Conditions/HighBloodPressure/AboutHighBloodPressure/Understanding-Blood-Pressure-Readings_UCM_301764_Article.jsp#.VvXBv_krKUk
-	private TemperatureGenerator tempGen = new TemperatureGenerator(36, 38); // degrees Celsius
+	private TemperatureGenerator tempGen = new TemperatureGenerator(37, 1); // degrees Celsius
 	// Generator
 	// objects-------------------------------------------------------------------
 
