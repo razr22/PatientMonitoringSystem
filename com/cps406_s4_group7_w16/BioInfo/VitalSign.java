@@ -3,10 +3,10 @@ package com.cps406_s4_group7_w16.BioInfo;
 public class VitalSign {
 
 	// Vital Signs
-	private int heartRate;
-	private int bloodPressure;
+	private double heartRate;
+	private double bloodPressure;
 	private double bodyTemperature;
-	private int respiratoryRate;
+	private	double respiratoryRate;
 
 	public VitalSign() {
 		this.heartRate = 0;
@@ -15,19 +15,19 @@ public class VitalSign {
 		this.respiratoryRate = 0;
 	}
 
-	public VitalSign(int heartRate, int bloodPressure, double bodyTemperature, int respiratoryRate) {
+	public VitalSign(double heartRate, double bloodPressure, double bodyTemperature, double respiratoryRate) {
 		this.heartRate = heartRate;
 		this.bloodPressure = bloodPressure;
 		this.bodyTemperature = bodyTemperature;
-		this.respiratoryRate = 0;
+		this.respiratoryRate = respiratoryRate;
 	}
 
-	public int getHeartRate() {
+	public double getHeartRate() {
 		return heartRate;
 	}
 
-	public void setHeartRate(int heartRate) {
-		this.heartRate = heartRate;
+	public void setHeartRate(double d) {
+		this.heartRate = d;
 	}
 
 	public double getBodyTemperature() {
@@ -38,19 +38,19 @@ public class VitalSign {
 		this.bodyTemperature = bodyTemperature;
 	}
 
-	public int getBloodPressure() {
+	public double getBloodPressure() {
 		return bloodPressure;
 	}
 
-	public void setBloodPressure(int bloodPressure) {
-		this.bloodPressure = bloodPressure;
+	public void setBloodPressure(double d) {
+		this.bloodPressure = d;
 	}
 
-	public int getRespiratoryRate() {
+	public double getRespiratoryRate() {
 		return respiratoryRate;
 	}
 
-	public void setRespiratoryRate(int respiratoryRate) {
+	public void setRespiratoryRate(double respiratoryRate) {
 		this.respiratoryRate = respiratoryRate;
 	}
 
