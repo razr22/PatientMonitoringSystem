@@ -27,17 +27,28 @@ public class Agenda {
 		Scanner in = new Scanner(file);
 
 		//skipping over PatientInfo in file
-		for(int i = 0; i < 6; i++){
+		for(int i = 0; i < 13; i++){
 			in.nextLine();
 		}
 		
-		//for each line, create an AgendaEvent and add it to the list.
-		while(in.next() != "Save"){
-			AgendaEvent event = new AgendaEvent(in.next(), in.next());
-			agenda.add(event);
-		}
+		String nextLine = in.nextLine();
 		
-		//close file.
+		//if next line is not "VITAL SIGN LOG" or an empty line we copy it.
+		while(nextLine.equals("VITAL SIGN LOG") != true && nextLine.equals("") != true){
+			
+			//extracting time and event name from line.
+			String timeFromLine = nextLine.substring(0, 7);
+			String eventFromLine = nextLine.substring(10);
+
+			//adding event to agenda.
+			AgendaEvent event = new AgendaEvent(timeFromLine, eventFromLine);
+			this.addEvent(event);
+			
+			//getting next line
+			nextLine = in.nextLine();
+		}
+
+		//closing file.
 		in.close();
 	}
 	

@@ -47,11 +47,24 @@ private String bloodType;
 		
 		Scanner in = new Scanner(file);
 		
-		this.name = in.nextLine();
-		this.age = in.nextLine();
-		this.height = in.nextLine();
-		this.weight = in.nextLine();
-		this.bloodType = in.nextLine();
+		//skipping over beginning of file.
+		for(int i = 0; i < 4; i++){
+			in.nextLine();
+		}
+		
+		//reading in whole lines.
+		String nameLine = in.nextLine();
+		String ageLine = in.nextLine();
+		String heightLine = in.nextLine();
+		String weightLine = in.nextLine();
+		String bloodTypeLine = in.nextLine();
+		
+		//extracting values from line.
+		this.name  = nameLine.substring(6);
+		this.age = ageLine.substring(5);
+		this.height = heightLine.substring(8);
+		this.weight = weightLine.substring(8);
+		this.bloodType = bloodTypeLine.substring(12);
 		in.close();
 	}
 	

@@ -1,13 +1,14 @@
 package com.cps406_s4_group7_w16.PatientInfo;
 
+import java.io.File;
 import java.io.IOException;
 
 public class AgendaTester {
 
 	public static void main(String[] args) throws IOException {
-		Agenda agenda = new Agenda();
-		AgendaEvent event = new AgendaEvent("2:00", "MRI");
-		agenda.addEvent(event);
+		File file = new File("Paul Martins.txt");
+		Agenda agenda = new Agenda(file);
+
 		agenda.saveAgenda("agendaTESTER.txt");
 		
 	}
