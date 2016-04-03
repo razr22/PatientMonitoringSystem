@@ -16,6 +16,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -44,7 +47,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class MainDisplayController implements Initializable {
-	//this is a push test
+	// this is a push test
 	// Agenda
 	// Variables----------------------------------------------------------------
 	Agenda agenda = new Agenda();
@@ -80,30 +83,51 @@ public class MainDisplayController implements Initializable {
 	// Timeline
 	// Variables----------------------------------------------------------------------
 
+	// Patient Profile
+	// Variables-------------------------------------------------------------
+	@FXML
+	private TextField patientName;
+	@FXML
+	private TextField patientAge;
+	@FXML
+	private TextField patientHeight;
+	@FXML
+	private TextField patientWeight;
+	@FXML
+	private TextField patientBloodType;
+
+	// Patient Profile
+	// Variables-------------------------------------------------------------
+
 	// Chart
 	// Series--------------------------------------------------------------------------
-	private XYChart.Series<Number, Number> heartRateSeries = new XYChart.Series<>();
-	private XYChart.Series<Number, Number> respiratoryRateSeries = new XYChart.Series<>();
-	private XYChart.Series<Number, Number> bloodPressureSeries = new XYChart.Series<>();
-	private XYChart.Series<Number, Number> bodyTempSeries = new XYChart.Series<>();
+	private XYChart.Series<Number, Number> HR_Series = new XYChart.Series<>();
+	private XYChart.Series<Number, Number> RR_Series = new XYChart.Series<>();
+	private XYChart.Series<Number, Number> BP_SystolicSeries = new XYChart.Series<>();
+	private XYChart.Series<Number, Number> BP_DiastolicSeries = new XYChart.Series<>();
+	private XYChart.Series<Number, Number> BT_Series = new XYChart.Series<>();
 	// Chart
 	// Series--------------------------------------------------------------------------
 
 	// Generator
 	// objects-------------------------------------------------------------------
-	private Generator heartRateGen = new Generator(80, 20); // beats per minute
-	private Generator respiratoryRateGen = new Generator(16, 4); // breaths per minute
-	//private Generator bloodPressureGen = new Generator(); // systolic over diastolic: http://www.heart.org/HEARTORG/Conditions/HighBloodPressure/AboutHighBloodPressure/Understanding-Blood-Pressure-Readings_UCM_301764_Article.jsp#.VvXBv_krKUk
-	private TemperatureGenerator tempGen = new TemperatureGenerator(37, 1); // degrees Celsius
+	private Generator HR_Gen = new Generator(80, 20); // beats per minute
+	private Generator RR_Gen = new Generator(16, 4); // breaths per minute
+	private Generator BP_SystolicGen = new Generator(105, 15); // systolic over
+																// diastolic:
+																// http://www.heart.org/HEARTORG/Conditions/HighBloodPressure/AboutHighBloodPressure/Understanding-Blood-Pressure-Readings_UCM_301764_Article.jsp#.VvXBv_krKUk
+	private Generator BP_DiastolicGen = new Generator(70, 10);
+	private TemperatureGenerator BT_Gen = new TemperatureGenerator(37, 1); // degrees
+																			// Celsius
 	// Generator
 	// objects-------------------------------------------------------------------
 
 	// Data
 	// Lists--------------------------------------------------------------------------------------------------------
-	private ObservableList<XYChart.Series<Number, Number>> heartRateData = FXCollections.observableArrayList();
-	private ObservableList<XYChart.Series<Number, Number>> respiratoryRateData = FXCollections.observableArrayList();
-	private ObservableList<XYChart.Series<Number, Number>> bloodPressureData = FXCollections.observableArrayList();
-	private ObservableList<XYChart.Series<Number, Number>> bodyTempData = FXCollections.observableArrayList();
+	private ObservableList<XYChart.Series<Number, Number>> HR_Data = FXCollections.observableArrayList();
+	private ObservableList<XYChart.Series<Number, Number>> RR_Data = FXCollections.observableArrayList();
+	private ObservableList<XYChart.Series<Number, Number>> BP_Data = FXCollections.observableArrayList();
+	private ObservableList<XYChart.Series<Number, Number>> BT_Data = FXCollections.observableArrayList();
 	// Data
 	// Lists--------------------------------------------------------------------------------------------------------
 
@@ -131,20 +155,24 @@ public class MainDisplayController implements Initializable {
 	// Line
 	// Charts----------------------------------------------------------------------------------
 	@FXML
-	LineChart<Number, Number> heartRateChart = new LineChart<>(HRxAxis, HRyAxis);
+	LineChart<Number, Number> HR_Chart = new LineChart<>(HRxAxis, HRyAxis);
 	@FXML
-	LineChart<Number, Number> bloodPreasureChart = new LineChart<>(BPxAxis, BPyAxis);
+	LineChart<Number, Number> BP_Chart = new LineChart<>(BPxAxis, BPyAxis);
 	@FXML
-	LineChart<Number, Number> respiratoryRateChart = new LineChart<>(RRxAxis, RRyAxis);
+	LineChart<Number, Number> RR_Chart = new LineChart<>(RRxAxis, RRyAxis);
 	@FXML
-	LineChart<Number, Number> bodyTemperatureChart = new LineChart<>(BTxAxis, BTyAxis);
+	LineChart<Number, Number> BT_Chart = new LineChart<>(BTxAxis, BTyAxis);
 	// Line
 	// Charts----------------------------------------------------------------------------------
 
-	//Saved Data Variables
+	// Saved Data Variables
 	Log log = new Log();
 	VitalSign vitalSign = new VitalSign();
-	
+
+	DateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
+	Calendar calendar;
+	// Saved Data Variables
+
 	/**
 	 * A method from "Initializable" that must be implemented. This is
 	 * implemented so that the program can go through an initialize phase, when
@@ -164,16 +192,25 @@ public class MainDisplayController implements Initializable {
 
 			secondsPassed.set(secondsPassed.add(1).get());
 			System.out.println("Seconds Passed: " + secondsPassed.get());
-			
-			vitalSign.setHeartRate(heartRateGen.generate());
-			//vitalSign.setBloodPressure(bodyT);
-			vitalSign.setRespiratoryRate(respiratoryRateGen.generate());
-			vitalSign.setBodyTemperature(tempGen.generate());
-			
+			vitalSign.setHeartRate(HR_Gen.generate());
+			vitalSign.setSystolicBloodPressure((int) BP_SystolicGen.generate());
+			vitalSign.setDiastolicBloodPressure((int) BP_DiastolicGen.generate());
+			vitalSign.setRespiratoryRate(RR_Gen.generate());
+			vitalSign.setBodyTemperature(BT_Gen.generate());
+			calendar = Calendar.getInstance();
+			vitalSign.setTimeStamp(timeformat.format(calendar.getTime()));
+
 			updateHeartRate(secondsPassed.get(), vitalSign.getHeartRate());
+			updateBloodPressure(secondsPassed.get(), vitalSign.getSystolicBloodPressure(),
+					vitalSign.getDiastolicBloodPressure());
 			updateRespiratoryRate(secondsPassed.get(), vitalSign.getRespiratoryRate());
 			updateTemperature(secondsPassed.get(), vitalSign.getBodyTemperature());
-			
+
+			// System.out.println(vitalSign.toString());
+			System.out.println(vitalSign.getTimeStamp());
+			// TODO: For some reason the Log isn't saving the timeStamp, instead
+			// of trying to save Time Stamp as a String try as a Date object or
+			// something
 			log.addLogEntry(vitalSign);
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
@@ -194,7 +231,7 @@ public class MainDisplayController implements Initializable {
 
 		Parent root = FXMLLoader.load(getClass().getResource("SimulationDisplay.fxml"));
 
-		Scene scene = new Scene(root, 600, 720);
+		Scene scene = new Scene(root, 720, 225);
 		scene.getStylesheets().add(getClass().getResource("SimulationDisplayStyle.css").toExternalForm());
 
 		Stage window = new Stage();
@@ -248,19 +285,10 @@ public class MainDisplayController implements Initializable {
 		}
 	}
 
-	/**
-	 * Method used by the "Start Simulation" file item. Activates all line
-	 * charts to start generating values for chart plotting. This method maybe
-	 * removed, depending if the group decides to activate the charts on start
-	 * up
-	 */
-	public void startSimulationButton() {
-
+	public void saveButton() throws IOException {
+		log.saveLog(patientName.getText() + ".txt");
 	}
 
-	public void saveButton() throws IOException{
-		log.saveLog("Rufus" + ".txt");
-	}
 	/**
 	 * Method used by the "Exit" file item. Exits program. TODO: Figure out how
 	 * to access outer class from inner class to exit
@@ -278,21 +306,29 @@ public class MainDisplayController implements Initializable {
 	private void chartInit() {
 		HRxAxis.setForceZeroInRange(false);
 		HRyAxis.setForceZeroInRange(false);
-		heartRateChart.setCreateSymbols(true);
-		heartRateData.add(heartRateSeries);
-		heartRateChart.setData(heartRateData);
+		HR_Chart.setCreateSymbols(true);
+		HR_Data.add(HR_Series);
+		HR_Chart.setData(HR_Data);
+
+		BPxAxis.setForceZeroInRange(false);
+		BPyAxis.setForceZeroInRange(false);
+		BP_Chart.setCreateSymbols(true);
+		BP_SystolicSeries.setName("Systolic Data");
+		BP_DiastolicSeries.setName("Diastolic Data");
+		BP_Data.addAll(BP_SystolicSeries, BP_DiastolicSeries);
+		BP_Chart.setData(BP_Data);
 
 		RRxAxis.setForceZeroInRange(false);
 		RRyAxis.setForceZeroInRange(false);
-		respiratoryRateChart.setCreateSymbols(true);
-		respiratoryRateData.add(respiratoryRateSeries);
-		respiratoryRateChart.setData(respiratoryRateData);
+		RR_Chart.setCreateSymbols(true);
+		RR_Data.add(RR_Series);
+		RR_Chart.setData(RR_Data);
 
 		BTxAxis.setForceZeroInRange(false);
 		BTyAxis.setForceZeroInRange(false);
-		bodyTemperatureChart.setCreateSymbols(true);
-		bodyTempData.add(bodyTempSeries);
-		bodyTemperatureChart.setData(bodyTempData);
+		BT_Chart.setCreateSymbols(true);
+		BT_Data.add(BT_Series);
+		BT_Chart.setData(BT_Data);
 	}
 
 	/**
@@ -339,28 +375,30 @@ public class MainDisplayController implements Initializable {
 	}
 
 	private void updateHeartRate(int second, double heartRate) {
-		System.out.println("	Heart Rate: " + heartRate);
-		heartRateSeries.getData().add(new XYChart.Data<Number, Number>(second, heartRate));
-		if (heartRateSeries.getData().size() > 10)
-			heartRateSeries.getData().remove(0);
+		HR_Series.getData().add(new XYChart.Data<Number, Number>(second, heartRate));
+		if (HR_Series.getData().size() > 10)
+			HR_Series.getData().remove(0);
 	}
 
 	private void updateRespiratoryRate(int second, double breathRate) {
-		System.out.println("	Breath Rate: " + breathRate);
-		respiratoryRateSeries.getData().add(new XYChart.Data<Number, Number>(second, breathRate));
-		if (respiratoryRateSeries.getData().size() > 10)
-			respiratoryRateSeries.getData().remove(0);
+		RR_Series.getData().add(new XYChart.Data<Number, Number>(second, breathRate));
+		if (RR_Series.getData().size() > 10)
+			RR_Series.getData().remove(0);
 	}
 
-	private void updateBloodPressure() {
-
+	private void updateBloodPressure(int second, int BP_Systolic, int BP_Diastolic) {
+		BP_SystolicSeries.getData().add(new XYChart.Data<Number, Number>(second, BP_Systolic));
+		if (BP_SystolicSeries.getData().size() > 10)
+			BP_SystolicSeries.getData().remove(0);
+		BP_DiastolicSeries.getData().add(new XYChart.Data<Number, Number>(second, BP_Diastolic));
+		if (BP_DiastolicSeries.getData().size() > 10)
+			BP_DiastolicSeries.getData().remove(0);
 	}
 
 	private void updateTemperature(int second, double temp) {
-		System.out.println("	Temperature: " + temp);
-		bodyTempSeries.getData().add(new XYChart.Data<Number, Number>(second, temp));
-		if (bodyTempSeries.getData().size() > 10)
-			bodyTempSeries.getData().remove(0);
+		BT_Series.getData().add(new XYChart.Data<Number, Number>(second, temp));
+		if (BT_Series.getData().size() > 10)
+			BT_Series.getData().remove(0);
 
 	}
 

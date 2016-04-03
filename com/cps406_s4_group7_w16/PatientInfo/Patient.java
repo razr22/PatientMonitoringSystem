@@ -15,6 +15,7 @@ private String name;
 private int age;
 private double height;
 private double weight;
+private String bloodType;
 
 
 	public Patient(){
@@ -22,14 +23,16 @@ private double weight;
 		this.setAge(0);
 		this.setHeight(0);
 		this.setWeight(0);
+		this.setBloodType("");
 	}
 
-	public Patient(String name, int age, double height, double weight){
+	public Patient(String name, int age, double height, double weight, String bloodType){
 
 		this.name = name;
 		this.age = age;
 		this.height = height;
 		this.weight = weight;
+		this.bloodType = bloodType;
 	}
 
 	/**
@@ -45,6 +48,7 @@ private double weight;
 		this.age = in.nextInt();
 		this.height = in.nextDouble();
 		this.weight = in.nextDouble();
+		this.bloodType = in.nextLine();
 		in.close();
 	}
 	
@@ -61,6 +65,7 @@ private double weight;
 		writer.write(ageString, 0, ageString.length());
 		writer.write(heightString, 0, heightString.length());
 		writer.write(weightString, 0, weightString.length());
+		writer.write(this.getBloodType() + "\n");
 		writer.close();
 		
 		
@@ -96,5 +101,13 @@ private double weight;
 
 	public void setWeight(double weight) {
 		this.weight = weight;
+	}
+
+	public String getBloodType() {
+		return bloodType;
+	}
+
+	public void setBloodType(String bloodType) {
+		this.bloodType = bloodType;
 	}
 }

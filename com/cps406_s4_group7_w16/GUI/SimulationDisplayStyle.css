@@ -3,4 +3,5 @@
 }
 .label{
     -fx-text-fill: #e8e8e8;
-}
+    -fx-font-family: Segoe WP;
+    }

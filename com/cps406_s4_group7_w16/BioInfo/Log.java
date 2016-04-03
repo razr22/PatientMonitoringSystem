@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Log {
@@ -38,16 +40,21 @@ public class Log {
 
 		BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
 		
+		DateFormat dateformat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+		Calendar calendar = Calendar.getInstance();
+		
 		//formatting for the header so that the data is more organized.
-		writer.write("\nBlood Pressure\tBody Temperature\tHeart Rate\tRespiratory Rate\n");
-		writer.write("-------------------------------------------------------------\n");
+		writer.write("\nSave Time: " + dateformat.format(calendar.getTime()) );
+		writer.write("\nTime\t\tBlood Pressure\t\t\tBody Temperature\t\tHeart Rate\t\t\tRespiratory Rate\n");
+		writer.write("-----------------------------------------------------------------------------------------------------------\n");
 		
 		//printing each vitalSign in log to file.
 		for(VitalSign vs : vitalLog){
-			writer.write(vs.getBloodPressure() + "\t\t\t");
-			writer.write(vs.getBodyTemperature() + "\t\t\t\t");
-			writer.write(vs.getHeartRate() + "\t\t");
-			writer.write(vs.getRespiratoryRate() + "\t\n");
+			writer.write(vs.getTimeStamp() + "\t");
+			writer.write(vs.getSystolicBloodPressure() + "/" + vs.getDiastolicBloodPressure() + " (mm Hg)\t\t\t");
+			writer.write(vs.getBodyTemperature() + " (°C)\t\t\t\t");
+			writer.write(vs.getHeartRate() + " (BPM)\t\t\t");
+			writer.write(vs.getRespiratoryRate() + " (RPM)\t\n");
 		}
 		
 		//closing the writer.
@@ -65,7 +72,7 @@ public class Log {
 		
 		//creating a new vitalSign object before adding to log to ensure that the same object is not added to the 
 		//more than once.
-		VitalSign vs2 = new VitalSign(vs.getHeartRate(), vs.getBloodPressure(), vs.getBodyTemperature(), vs.getRespiratoryRate());
+		VitalSign vs2 = new VitalSign(vs.getTimeStamp(), vs.getHeartRate(), vs.getSystolicBloodPressure(), vs.getDiastolicBloodPressure(), vs.getBodyTemperature(), vs.getRespiratoryRate());
 		vitalLog.add(vs2);
 	}
 
