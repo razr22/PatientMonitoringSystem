@@ -8,7 +8,7 @@ public class AgendaTester {
 		Agenda agenda = new Agenda();
 		AgendaEvent event = new AgendaEvent("2:00", "MRI");
 		agenda.addEvent(event);
-		agenda.writeToFile("agendaTESTER.txt");
+		agenda.saveAgenda("agendaTESTER.txt");
 		
 	}
 

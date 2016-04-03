@@ -65,9 +65,8 @@ private String bloodType;
 		writer.write(ageString, 0, ageString.length());
 		writer.write(heightString, 0, heightString.length());
 		writer.write(weightString, 0, weightString.length());
-		writer.write(this.getBloodType() + "\n");
+		writer.write(this.getBloodType() + "\n\n");
 		writer.close();
-		
 		
 	}
 	

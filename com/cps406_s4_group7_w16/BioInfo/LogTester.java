@@ -11,13 +11,21 @@ public class LogTester {
 		// TODO Auto-generated method stub
 		
 		//instantiating test objects.
-		Patient pat = new Patient("Pat", 10,10,10);
-		VitalSign vs = new VitalSign(10,10,10,10);
+		Patient pat = new Patient("Pat", "10","10","10", "A-");
+		VitalSign vs = new VitalSign("5:00pm",10,10,10, 0, 0);
 		Log log = new Log();
 		log.addLogEntry(vs);
+		Agenda agenda = new Agenda();
+		AgendaEvent event = new AgendaEvent("2:00", "MRI");
+		agenda.addEvent(event);
+
 		
 		//saving Patient info
 		pat.writeToFile("test.txt");
+		
+		//saving agenda
+		agenda.saveAgenda("test.txt");
+		
 		//saving Log info
 		log.saveLog("test.txt");
 		
