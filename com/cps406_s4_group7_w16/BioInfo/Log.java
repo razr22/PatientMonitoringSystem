@@ -21,7 +21,6 @@ public class Log {
 	 */
 	public void clearLog() {
 		vitalLog.clear();
-
 	}
 	
 	/**

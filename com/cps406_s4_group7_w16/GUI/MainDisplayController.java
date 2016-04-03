@@ -109,16 +109,27 @@ public class MainDisplayController implements Initializable {
 	// Chart
 	// Series--------------------------------------------------------------------------
 
+	// Generator Constants
+	private final int HR_MID = 80;
+	private final int HR_DEV = 20;
+	private final int RR_MID = 16;
+	private final int RR_DEV = 4;
+	private final int BB_SYSTOLICMID = 105;
+	private final int BB_SYSTOLICDEV = 15;
+	private final int BB_DIASTOLICMID = 70;
+	private final int BB_DIASTOLICDEV = 10;
+	private final int BT_MID = 37;
+	private final int BT_DEV = 1;
+
+	//Generator Constants
+	
 	// Generator
 	// objects-------------------------------------------------------------------
-	private Generator HR_Gen = new Generator(80, 20); // beats per minute
-	private Generator RR_Gen = new Generator(16, 4); // breaths per minute
-	private Generator BP_SystolicGen = new Generator(105, 15); // systolic over
-																// diastolic:
-																// http://www.heart.org/HEARTORG/Conditions/HighBloodPressure/AboutHighBloodPressure/Understanding-Blood-Pressure-Readings_UCM_301764_Article.jsp#.VvXBv_krKUk
-	private Generator BP_DiastolicGen = new Generator(70, 10);
-	private TemperatureGenerator BT_Gen = new TemperatureGenerator(37, 1); // degrees
-																			// Celsius
+	private Generator HR_Gen = new Generator(HR_MID, HR_DEV); // beats per minute
+	private Generator RR_Gen = new Generator(RR_MID, RR_DEV); // breaths per minute
+	private Generator BP_SystolicGen = new Generator(BB_SYSTOLICMID, BB_SYSTOLICDEV); // Systolic Blood Pressure
+	private Generator BP_DiastolicGen = new Generator(BB_DIASTOLICMID, BB_DIASTOLICDEV); // Diastolic Blood Pressure
+	private TemperatureGenerator BT_Gen = new TemperatureGenerator(BT_MID, BT_DEV); // Degrees Celsius
 	// Generator
 	// objects-------------------------------------------------------------------
 
@@ -174,7 +185,7 @@ public class MainDisplayController implements Initializable {
 	DateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
 	Calendar calendar;
 	// Saved Data Variables
-	
+
 	// Quick Data Labels
 	@FXML
 	Label HR_QuickData = new Label();
@@ -205,7 +216,7 @@ public class MainDisplayController implements Initializable {
 		timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
 
 			secondsPassed.set(secondsPassed.add(1).get());
-			//System.out.println("Seconds Passed: " + secondsPassed.get());
+			// System.out.println("Seconds Passed: " + secondsPassed.get());
 			vitalSign.setHeartRate(HR_Gen.generate());
 			vitalSign.setSystolicBloodPressure((int) BP_SystolicGen.generate());
 			vitalSign.setDiastolicBloodPressure((int) BP_DiastolicGen.generate());
@@ -219,7 +230,7 @@ public class MainDisplayController implements Initializable {
 					vitalSign.getDiastolicBloodPressure());
 			updateRespiratoryRate(secondsPassed.get(), vitalSign.getRespiratoryRate());
 			updateTemperature(secondsPassed.get(), vitalSign.getBodyTemperature());
-			
+
 			System.out.println(vitalSign.getTimeStamp());
 			System.out.println(vitalSign.toString());
 			log.addLogEntry(vitalSign);
@@ -251,6 +262,20 @@ public class MainDisplayController implements Initializable {
 		window.show();
 	}
 
+	public void displayAlarmSettings() throws IOException{
+		System.out.println("Alarm Settings");
+
+		Parent root = FXMLLoader.load(getClass().getResource("AlarmSettings.fxml"));
+
+		Scene scene = new Scene(root, 750, 225);
+		scene.getStylesheets().add(getClass().getResource("AlarmSettingsStyle.css").toExternalForm());
+
+		Stage window = new Stage();
+		window.setTitle("Alarm Settings v1.0");
+		window.setScene(scene);
+		window.show();
+	}
+	
 	/**
 	 * Method used by the "Add Event" button. Adds an entry to the Patient
 	 * Agenda
@@ -310,17 +335,16 @@ public class MainDisplayController implements Initializable {
 	public void exitButton() {
 		System.exit(0);
 	}
+	
+	private void getPatientProfile() {
 
-	private void getPatientProfile()
-	{
-		
 		patient.setName(patientName.getText());
 		patient.setAge(patientAge.getText());
 		patient.setHeight(patientHeight.getText());
 		patient.setWeight(patientWeight.getText());
 		patient.setBloodType(patientBloodType.getText());
 	}
-	
+
 	/**
 	 * This method is used to initialize all four charts to allow x and y Axis
 	 * to adjust to appropriate ranges. Also allows charts to have visible data
@@ -403,7 +427,7 @@ public class MainDisplayController implements Initializable {
 		HR_QuickData.setText("Quick Data: [Current Heart Rate = " + heartRate + " (BPM)]");
 		if (HR_Series.getData().size() > 10)
 			HR_Series.getData().remove(0);
-		
+
 	}
 
 	private void updateRespiratoryRate(int second, double breathRate) {
@@ -414,7 +438,7 @@ public class MainDisplayController implements Initializable {
 	}
 
 	private void updateBloodPressure(int second, int BP_Systolic, int BP_Diastolic) {
-		BP_QuickData.setText("Quick Data: [Current Blood Pressure = " + BP_Systolic + "/" + BP_Diastolic +  " (mm Hg)]");
+		BP_QuickData.setText("Quick Data: [Current Blood Pressure = " + BP_Systolic + "/" + BP_Diastolic + " (mm Hg)]");
 		BP_SystolicSeries.getData().add(new XYChart.Data<Number, Number>(second, BP_Systolic));
 		if (BP_SystolicSeries.getData().size() > 10)
 			BP_SystolicSeries.getData().remove(0);
