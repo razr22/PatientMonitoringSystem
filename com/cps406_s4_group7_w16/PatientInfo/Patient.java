@@ -12,21 +12,21 @@ import java.util.Scanner;
 public class Patient{
 
 private String name;
-private int age;
-private double height;
-private double weight;
+private String age;
+private String height;
+private String weight;
 private String bloodType;
 
 
 	public Patient(){
 		this.setName("");
-		this.setAge(0);
-		this.setHeight(0);
-		this.setWeight(0);
+		this.setAge("");
+		this.setHeight("");
+		this.setWeight("");
 		this.setBloodType("");
 	}
 
-	public Patient(String name, int age, double height, double weight, String bloodType){
+	public Patient(String name, String age, String height, String weight, String bloodType){
 
 		this.name = name;
 		this.age = age;
@@ -45,9 +45,9 @@ private String bloodType;
 		Scanner in = new Scanner(file);
 		
 		this.name = in.nextLine();
-		this.age = in.nextInt();
-		this.height = in.nextDouble();
-		this.weight = in.nextDouble();
+		this.age = in.nextLine();
+		this.height = in.nextLine();
+		this.weight = in.nextLine();
 		this.bloodType = in.nextLine();
 		in.close();
 	}
@@ -79,27 +79,27 @@ private String bloodType;
 		this.name = name;
 	}
 
-	public int getAge() {
+	public String getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
+	public void setAge(String age) {
 		this.age = age;
 	}
 
-	public double getHeight() {
+	public String getHeight() {
 		return height;
 	}
 
-	public void setHeight(double height) {
+	public void setHeight(String height) {
 		this.height = height;
 	}
 
-	public double getWeight() {
+	public String getWeight() {
 		return weight;
 	}
 
-	public void setWeight(double weight) {
+	public void setWeight(String weight) {
 		this.weight = weight;
 	}
 

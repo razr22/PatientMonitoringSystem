@@ -13,12 +13,7 @@ import java.util.*;
 public class Log {
 
 	// class members.
-	private int saveInterval;
 	private ArrayList<VitalSign> vitalLog = new ArrayList<VitalSign>();
-
-	public Log(){
-		saveInterval = 20;
-	}
 	
 	/**
 	 * Method that clears the log. Used mostly after saving the log to avoid
@@ -75,26 +70,4 @@ public class Log {
 		VitalSign vs2 = new VitalSign(vs.getTimeStamp(), vs.getHeartRate(), vs.getSystolicBloodPressure(), vs.getDiastolicBloodPressure(), vs.getBodyTemperature(), vs.getRespiratoryRate());
 		vitalLog.add(vs2);
 	}
-
-	/**
-	 * Getter method for the interval in which the log file is to be saved.
-	 * 
-	 * @return Integer representing quanta of time (in seconds) to pass before
-	 *         the vital sign log is saved externally.
-	 */
-	public int getSaveInterval() {
-		return saveInterval;
-	}
-
-	/**
-	 * Setter method for the interval in which the log file is to be saved.
-	 * 
-	 * @param saveInterval
-	 *            Integer representing the time (in seconds) that should pass
-	 *            before the vital sign log is saved.
-	 */
-	public void setSaveInterval(int saveInterval) {
-		this.saveInterval = saveInterval;
-	}
-
 }

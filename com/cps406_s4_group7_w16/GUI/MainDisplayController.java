@@ -50,7 +50,6 @@ public class MainDisplayController implements Initializable {
 	// this is a push test
 	// Agenda
 	// Variables----------------------------------------------------------------
-	Agenda agenda = new Agenda();
 
 	@FXML
 	TableView<AgendaEvent> schedule;
@@ -168,6 +167,8 @@ public class MainDisplayController implements Initializable {
 	// Saved Data Variables
 	Log log = new Log();
 	VitalSign vitalSign = new VitalSign();
+	Patient patient = new Patient();
+	Agenda agenda = new Agenda();
 
 	DateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
 	Calendar calendar;
@@ -206,8 +207,8 @@ public class MainDisplayController implements Initializable {
 			updateRespiratoryRate(secondsPassed.get(), vitalSign.getRespiratoryRate());
 			updateTemperature(secondsPassed.get(), vitalSign.getBodyTemperature());
 
-			// System.out.println(vitalSign.toString());
-			System.out.println(vitalSign.getTimeStamp());
+			System.out.println(vitalSign.toString());
+			//System.out.println(vitalSign.getTimeStamp());
 			// TODO: For some reason the Log isn't saving the timeStamp, instead
 			// of trying to save Time Stamp as a String try as a Date object or
 			// something
@@ -286,7 +287,10 @@ public class MainDisplayController implements Initializable {
 	}
 
 	public void saveButton() throws IOException {
-		log.saveLog(patientName.getText() + ".txt");
+		getPatientProfile();
+		patient.writeToFile(patient.getName() + ".txt");
+		agenda.writeToFile(patient.getName() + ".txt");
+		log.saveLog(patient.getName() + ".txt");
 	}
 
 	/**
@@ -297,6 +301,16 @@ public class MainDisplayController implements Initializable {
 		System.exit(0);
 	}
 
+	private void getPatientProfile()
+	{
+		
+		patient.setName(patientName.getText());
+		patient.setAge(patientAge.getText());
+		patient.setHeight(patientHeight.getText());
+		patient.setWeight(patientWeight.getText());
+		patient.setBloodType(patientBloodType.getText());
+	}
+	
 	/**
 	 * This method is used to initialize all four charts to allow x and y Axis
 	 * to adjust to appropriate ranges. Also allows charts to have visible data
