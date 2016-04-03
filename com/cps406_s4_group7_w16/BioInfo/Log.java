@@ -23,7 +23,7 @@ public class Log {
 		vitalLog.clear();
 
 	}
-
+	
 	/**
 	 * Method that saves the contents of the log to a file.
 	 *
@@ -35,11 +35,8 @@ public class Log {
 
 		BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
 		
-		DateFormat dateformat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-		Calendar calendar = Calendar.getInstance();
-		
 		//formatting for the header so that the data is more organized.
-		writer.write("\nSave Time: " + dateformat.format(calendar.getTime()) );
+		writer.write("\nVITAL SIGN LOG");
 		writer.write("\nTime\t\tBlood Pressure\t\t\tBody Temperature\t\tHeart Rate\t\t\tRespiratory Rate\n");
 		writer.write("-----------------------------------------------------------------------------------------------------------\n");
 		

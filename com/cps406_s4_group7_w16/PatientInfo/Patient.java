@@ -7,6 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Scanner;
 
 public class Patient{
@@ -53,7 +56,7 @@ private String bloodType;
 	}
 	
 	
-	public void writeToFile(String filename) throws IOException{
+	public void savePatientProfile(String filename) throws IOException{
 		BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 		
 		//converting to strings
@@ -61,11 +64,20 @@ private String bloodType;
 		String heightString = height + "\n";
 		String weightString = weight + "\n";
 		
-		writer.write(this.getName() + "\n");
+		DateFormat dateformat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+		Calendar calendar = Calendar.getInstance();
+
+		writer.write("Save Time: " + dateformat.format(calendar.getTime())  + "\n\n");
+		writer.write("PATIENT PROFILE\n");
+		writer.write("---------------------------------------------------\n");
+		writer.write("Name: " + this.getName() + "\n");
+		writer.write("Age: ");
 		writer.write(ageString, 0, ageString.length());
+		writer.write("Height: ");
 		writer.write(heightString, 0, heightString.length());
+		writer.write("Weight: ");
 		writer.write(weightString, 0, weightString.length());
-		writer.write(this.getBloodType() + "\n\n");
+		writer.write("Blood Type: " + this.getBloodType() + "\n\n");
 		writer.close();
 		
 	}

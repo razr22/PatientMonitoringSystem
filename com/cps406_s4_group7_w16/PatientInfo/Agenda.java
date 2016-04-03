@@ -55,14 +55,14 @@ public class Agenda {
 	
 	public void saveAgenda(String filename) throws IOException{
 		BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
-		
+		writer.write("AGENDA\n");
+		writer.write("Time\t\tEvent\n");
+		writer.write("-----------------------------------------------------------------------------------------------------------\n");
 		//for each agendaEvent print the time of event and event name.
 		for(AgendaEvent a : agenda){
 			
 			String eventString = a.getEvent();
 			String timeString = a.getTime();
-			writer.write("Agenda\n");
-			writer.write("-----------------------------------------------------------------------------------------------------------\n");
 			writer.write(timeString + "\t-\t");
 			writer.write(eventString + "\n");
 		}

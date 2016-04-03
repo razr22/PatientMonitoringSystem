@@ -173,6 +173,10 @@ public class MainDisplayController implements Initializable {
 	DateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
 	Calendar calendar;
 	// Saved Data Variables
+	
+	// Quick Data Labels
+	
+	// Quick Data Labels
 
 	/**
 	 * A method from "Initializable" that must be implemented. This is
@@ -288,8 +292,8 @@ public class MainDisplayController implements Initializable {
 
 	public void saveButton() throws IOException {
 		getPatientProfile();
-		patient.writeToFile(patient.getName() + ".txt");
-		agenda.writeToFile(patient.getName() + ".txt");
+		patient.savePatientProfile(patient.getName() + ".txt");
+		agenda.saveAgenda(patient.getName() + ".txt");
 		log.saveLog(patient.getName() + ".txt");
 	}
 
