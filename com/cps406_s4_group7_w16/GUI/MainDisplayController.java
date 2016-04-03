@@ -12,6 +12,7 @@ import com.cps406_s4_group7_w16.BioInfo.*;
 import com.cps406_s4_group7_w16.PatientInfo.*;
 import com.cps406_s4_group7_w16.Security.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -44,6 +45,16 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Polygon;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -110,26 +121,33 @@ public class MainDisplayController implements Initializable {
 	// Series--------------------------------------------------------------------------
 
 	// Generator Constants
-	private final int HR_MID = 80;
+	private final int HR_MID = 110;// 80
 	private final int HR_DEV = 20;
 	private final int RR_MID = 16;
 	private final int RR_DEV = 4;
 	private final int BB_SYSTOLICMID = 105;
 	private final int BB_SYSTOLICDEV = 15;
-	private final int BB_DIASTOLICMID = 70;
-	private final int BB_DIASTOLICDEV = 10;
+	private final int BB_DIASTOLICMID = 110;
+	private final int BB_DIASTOLICDEV = 30;
 	private final int BT_MID = 37;
 	private final int BT_DEV = 1;
 
-	//Generator Constants
-	
+	// Generator Constants
+
 	// Generator
 	// objects-------------------------------------------------------------------
-	private Generator HR_Gen = new Generator(HR_MID, HR_DEV); // beats per minute
-	private Generator RR_Gen = new Generator(RR_MID, RR_DEV); // breaths per minute
-	private Generator BP_SystolicGen = new Generator(BB_SYSTOLICMID, BB_SYSTOLICDEV); // Systolic Blood Pressure
-	private Generator BP_DiastolicGen = new Generator(BB_DIASTOLICMID, BB_DIASTOLICDEV); // Diastolic Blood Pressure
-	private TemperatureGenerator BT_Gen = new TemperatureGenerator(BT_MID, BT_DEV); // Degrees Celsius
+	private Generator HR_Gen = new Generator(HR_MID, HR_DEV); // beats per
+																// minute
+	private Generator RR_Gen = new Generator(RR_MID, RR_DEV); // breaths per
+																// minute
+	private Generator BP_SystolicGen = new Generator(BB_SYSTOLICMID, BB_SYSTOLICDEV); // Systolic
+																						// Blood
+																						// Pressure
+	private Generator BP_DiastolicGen = new Generator(BB_DIASTOLICMID, BB_DIASTOLICDEV); // Diastolic
+																							// Blood
+																							// Pressure
+	private TemperatureGenerator BT_Gen = new TemperatureGenerator(BT_MID, BT_DEV); // Degrees
+																					// Celsius
 	// Generator
 	// objects-------------------------------------------------------------------
 
@@ -188,15 +206,33 @@ public class MainDisplayController implements Initializable {
 
 	// Quick Data Labels
 	@FXML
-	Label HR_QuickData = new Label();
+	Label HR_QuickDataCurrent = new Label();
 	@FXML
-	Label BP_QuickData = new Label();
+	Label BP_QuickDataCurrent = new Label();
 	@FXML
-	Label RR_QuickData = new Label();
+	Label RR_QuickDataCurrent = new Label();
 	@FXML
-	Label BT_QuickData = new Label();
+	Label BT_QuickDataCurrent = new Label();
 
+	@FXML
+	Label HR_QuickDataWarning = new Label();
+	@FXML
+	Label BP_QuickDataSystolicWarning = new Label();
+	@FXML
+	Label BP_QuickDataDiastolicWarning = new Label();
+	@FXML
+	Label RR_QuickDataWarning = new Label();
+	@FXML
+	Label BT_QuickDataWarning = new Label();
 	// Quick Data Labels
+
+	// Alarms
+	Alarm HR_Alarm = new Alarm(100, 60);
+	Alarm BP_SystolicAlarm = new Alarm(120, 90);
+	Alarm BP_DiastolicAlarm = new Alarm(140, 80);
+	Alarm RR_Alarm = new Alarm(20, 12);
+	Alarm BT_Alarm = new Alarm(38, 36);
+	// Alarms
 
 	/**
 	 * A method from "Initializable" that must be implemented. This is
@@ -258,11 +294,12 @@ public class MainDisplayController implements Initializable {
 
 		Stage window = new Stage();
 		window.setTitle("Patient Simulator v1.0");
+		window.getIcons().add(new Image(getClass().getResourceAsStream("Program Icon.png")));
 		window.setScene(scene);
 		window.show();
 	}
 
-	public void displayAlarmSettings() throws IOException{
+	public void displayAlarmSettings() throws IOException {
 		System.out.println("Alarm Settings");
 
 		Parent root = FXMLLoader.load(getClass().getResource("AlarmSettings.fxml"));
@@ -272,10 +309,26 @@ public class MainDisplayController implements Initializable {
 
 		Stage window = new Stage();
 		window.setTitle("Alarm Settings v1.0");
+		window.getIcons().add(new Image(getClass().getResourceAsStream("Program Icon.png")));
 		window.setScene(scene);
 		window.show();
 	}
-	
+
+	public void displayAboutPage() throws IOException {
+		System.out.println("About Page");
+
+		Parent root = FXMLLoader.load(getClass().getResource("AboutPage.fxml"));
+
+		Scene scene = new Scene(root, 600, 400);
+		scene.getStylesheets().add(getClass().getResource("AboutPageStyle.css").toExternalForm());
+
+		Stage window = new Stage();
+		window.setTitle("About Page v1.0");
+		window.getIcons().add(new Image(getClass().getResourceAsStream("Program Icon.png")));
+		window.setScene(scene);
+		window.show();
+	}
+
 	/**
 	 * Method used by the "Add Event" button. Adds an entry to the Patient
 	 * Agenda
@@ -321,6 +374,23 @@ public class MainDisplayController implements Initializable {
 		}
 	}
 
+	public void openButton() throws FileNotFoundException {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setInitialDirectory(new File(".\\"));
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"));
+
+		File selectedFile = fileChooser.showOpenDialog(null);
+
+		if (selectedFile != null) {
+			patient = new Patient(selectedFile);
+			setPatientProfile();
+			agenda = new Agenda(selectedFile);
+			displayAgenda();
+		} else {
+			System.out.println("File selection cancelled");
+		}
+	}
+
 	public void saveButton() throws IOException {
 		getPatientProfile();
 		patient.savePatientProfile(patient.getName() + ".txt");
@@ -335,7 +405,7 @@ public class MainDisplayController implements Initializable {
 	public void exitButton() {
 		System.exit(0);
 	}
-	
+
 	private void getPatientProfile() {
 
 		patient.setName(patientName.getText());
@@ -343,6 +413,24 @@ public class MainDisplayController implements Initializable {
 		patient.setHeight(patientHeight.getText());
 		patient.setWeight(patientWeight.getText());
 		patient.setBloodType(patientBloodType.getText());
+	}
+
+	private void setPatientProfile() {
+		patientName.clear();
+		;
+		patientAge.clear();
+		;
+		patientHeight.clear();
+		;
+		patientWeight.clear();
+		;
+		patientBloodType.clear();
+
+		patientName.setText(patient.getName());
+		patientAge.setText(patient.getAge());
+		patientHeight.setText(patient.getHeight());
+		patientWeight.setText(patient.getWeight());
+		patientBloodType.setText(patient.getBloodType());
 	}
 
 	/**
@@ -398,6 +486,7 @@ public class MainDisplayController implements Initializable {
 	 * This method is used for the initialization of the Agenda Form and the
 	 * Agenda Table
 	 */
+
 	private void displayAgenda() {
 		hour.setItems(FXCollections.observableArrayList("00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
 				"10", "11", "12"));
@@ -423,22 +512,140 @@ public class MainDisplayController implements Initializable {
 	}
 
 	private void updateHeartRate(int second, double heartRate) {
+		int pastUpper = 0;
+		int pastLower = 0;
+		// Checks Current Value if past bounds and Displays it to Quick
+		// Data---------------------------------------
+		if (heartRate >= HR_Alarm.getUpperBound())
+			HR_QuickDataWarning.setText("WARNING: CURRENT HEART RATE PAST UPPER BOUNDS");
+		else if (heartRate >= HR_Alarm.getUpperBound())
+			HR_QuickDataWarning.setText("WARNING: CURRENT HEART RATE PAST LOWER BOUNDS");
+		else
+			HR_QuickDataWarning.setText("");
+
+		HR_QuickDataCurrent.setText("Quick Data: [Current Heart Rate = " + heartRate + " (BPM)]");
+		// Checks Current Value if past bounds and Displays it to Quick
+		// Data---------------------------------------
+
+		// If more that 5 points are higher than Upper Bound then Heart
+		// Attack-----------------------------------------------
+		for (int i = 0; i <= HR_Series.getData().size() - 1; i++) {
+			if (HR_Series.getData().get(i).getYValue().doubleValue() > HR_Alarm.getUpperBound()) 
+				pastUpper++;
+			if (HR_Series.getData().get(i).getYValue().doubleValue() < HR_Alarm.getLowerBound()) 
+				pastLower++;	
+		}
+
+		if (pastUpper > 5) {
+			System.out.println("HEART ATTACK");
+			HR_QuickDataWarning.setText("ALERT: HEART ATTACK");
+		}
+		if (pastLower > 5) {
+			System.out.println("BRADYCARDIA");
+			HR_QuickDataWarning.setText("ALERT: BRADYCARDIA");
+		}
+		// If more that 5 points are higher than Upper Bound then Heart
+		// Attack-----------------------------------------------
+
 		HR_Series.getData().add(new XYChart.Data<Number, Number>(second, heartRate));
-		HR_QuickData.setText("Quick Data: [Current Heart Rate = " + heartRate + " (BPM)]");
 		if (HR_Series.getData().size() > 10)
 			HR_Series.getData().remove(0);
 
 	}
 
 	private void updateRespiratoryRate(int second, double breathRate) {
+		int pastUpper = 0;
+		int pastLower = 0;
+		if (breathRate >= RR_Alarm.getUpperBound())
+			RR_QuickDataWarning.setText("WARNING: CURRENT RESPIRATORY RATE PAST UPPER BOUNDS");
+		else if (breathRate >= RR_Alarm.getUpperBound())
+			RR_QuickDataWarning.setText("WARNING: CURRENT RESPIRATORY RATE PAST LOWER BOUNDS");
+		else
+			RR_QuickDataWarning.setText("");
+
+		for (int i = 0; i <= RR_Series.getData().size() - 1; i++) {
+			if (RR_Series.getData().get(i).getYValue().doubleValue() > RR_Alarm.getUpperBound()) 
+				pastUpper++;
+			if (RR_Series.getData().get(i).getYValue().doubleValue() < RR_Alarm.getLowerBound())
+				pastLower++;
+		}
+
+		if (pastUpper > 5) {
+			System.out.println("HYPERVENTALATION");
+			RR_QuickDataWarning.setText("ALERT: HYPERVENTALATION");
+		}
+		if (pastLower > 5) {
+			System.out.println("BRADYPNEA");
+			RR_QuickDataWarning.setText("ALERT: BRADYCARDIA");
+		}
+		
+		RR_QuickDataCurrent.setText("Quick Data: [Current Respiration Rate = " + breathRate + " (RPM)]");
 		RR_Series.getData().add(new XYChart.Data<Number, Number>(second, breathRate));
-		RR_QuickData.setText("Quick Data: [Current Respiration Rate = " + breathRate + " (RPM)]");
 		if (RR_Series.getData().size() > 10)
 			RR_Series.getData().remove(0);
 	}
 
 	private void updateBloodPressure(int second, int BP_Systolic, int BP_Diastolic) {
-		BP_QuickData.setText("Quick Data: [Current Blood Pressure = " + BP_Systolic + "/" + BP_Diastolic + " (mm Hg)]");
+		int pastUpper_S = 0;
+		int pastLower_S = 0;
+		int pastUpper_D = 0;
+		int pastLower_D = 0;
+		
+		if(BP_Systolic >= BP_SystolicAlarm.getUpperBound()) //sys too high
+			BP_QuickDataSystolicWarning.setText("WARNING: SYSTOLIC PRESSURE PAST UPPER BOUND");
+		else if(BP_Systolic <= BP_SystolicAlarm.getLowerBound()) //sys too low
+			BP_QuickDataSystolicWarning.setText("WARNING: SYSTOLIC PRESSURE PAST LOWER BOUND");
+		else if(BP_Diastolic >= BP_DiastolicAlarm.getUpperBound()) //dia too high
+			BP_QuickDataDiastolicWarning.setText("WARNING: DIASTOLIC PRESSURE PAST UPPER BOUND");
+		else if(BP_Diastolic <= BP_DiastolicAlarm.getLowerBound()) //dia too low
+			BP_QuickDataDiastolicWarning.setText("WARNING: DIASTOLIC PRESSURE PAST LOWER BOUND");
+		
+		for (int i = 0; i <= BP_SystolicSeries.getData().size() - 1; i++) {
+			if (BP_SystolicSeries.getData().get(i).getYValue().doubleValue() > BP_SystolicAlarm.getUpperBound()) 
+				pastUpper_S++;
+			if (BP_SystolicSeries.getData().get(i).getYValue().doubleValue() < BP_SystolicAlarm.getLowerBound())
+				pastLower_S++;
+			if (BP_DiastolicSeries.getData().get(i).getYValue().doubleValue() > BP_DiastolicAlarm.getUpperBound()) 
+				pastUpper_D++;
+			if (BP_DiastolicSeries.getData().get(i).getYValue().doubleValue() < BP_DiastolicAlarm.getLowerBound())
+				pastLower_D++;
+		}
+		System.out.println("pastUpper_S: " + pastUpper_S);
+		System.out.println("pastLower_S: " + pastLower_S);
+		System.out.println("pastUpper_D: " + pastUpper_D);
+		System.out.println("pastLower_D: " + pastLower_D);
+		if (pastUpper_S > 5) {
+			System.out.println("ISOLATED SYSTOLIC HYPERTENSION");
+			BP_QuickDataSystolicWarning.setText("ALERT: ISOLATED SYSTOLIC HYPERTENSION");
+		}
+		if (pastLower_S > 5) {
+			System.out.println("ISOLATED SYSTOLIC HYPOTENSION");
+			BP_QuickDataSystolicWarning.setText("ALERT:ISOLATED SYSTOLIC HYPOTENSION");
+		}
+		if (pastUpper_D > 5) {
+			System.out.println("ISOLATED DIASTOLIC HYPERTENSION");
+			BP_QuickDataDiastolicWarning.setText("ALERT: ISOLATED DIASTOLIC HYPERTENSION");
+		}
+		if (pastLower_D > 5) {
+			System.out.println("ISOLATED DIASTOLIC HYPOTENSION");
+			BP_QuickDataDiastolicWarning.setText("ALERT: ISOLATED DIASTOLIC HYPOTENSION");
+		}
+		if(pastUpper_S > 5 && pastUpper_D > 5){
+			System.out.println("HIGH BLOOD PRESSURE");
+			BP_QuickDataSystolicWarning.setText("ALERT: HIGH BLOOD PRESSURE");
+			BP_QuickDataDiastolicWarning.setText("ALERT: HIGH BLOOD PRESSURE");
+
+		}
+		if(pastLower_S > 5 && pastLower_D > 5){
+			System.out.println("LOW BLOOD PRESSURE");
+			BP_QuickDataSystolicWarning.setText("ALERT: LOW BLOOD PRESSURE");
+			BP_QuickDataDiastolicWarning.setText("ALERT: LOW BLOOD PRESSURE");
+
+		}
+
+		BP_QuickDataCurrent
+				.setText("Quick Data: [Current Blood Pressure = " + BP_Systolic + "/" + BP_Diastolic + " (mm Hg)]");
+
 		BP_SystolicSeries.getData().add(new XYChart.Data<Number, Number>(second, BP_Systolic));
 		if (BP_SystolicSeries.getData().size() > 10)
 			BP_SystolicSeries.getData().remove(0);
@@ -448,7 +655,32 @@ public class MainDisplayController implements Initializable {
 	}
 
 	private void updateTemperature(int second, double temp) {
-		BT_QuickData.setText("Quick Data: [Current Body Temperature = " + temp + " (°C)]");
+		int pastUpper = 0;
+		int pastLower = 0;
+		if (temp >= BT_Alarm.getUpperBound())
+			BT_QuickDataWarning.setText("WARNING: CURRENT BODY TEMPERATURE PAST UPPER BOUNDS");
+		else if (temp >= BT_Alarm.getUpperBound())
+			BT_QuickDataWarning.setText("WARNING: CURRENT BODY TEMPERATURE PAST LOWER BOUNDS");
+		else
+			BT_QuickDataWarning.setText("");
+
+		for (int i = 0; i <= BT_Series.getData().size() - 1; i++) {
+			if (BT_Series.getData().get(i).getYValue().doubleValue() > BT_Alarm.getUpperBound()) 
+				pastUpper++;
+			if (BT_Series.getData().get(i).getYValue().doubleValue() < BT_Alarm.getLowerBound())
+				pastLower++;
+		}
+
+		if (pastUpper > 5) {
+			System.out.println("HYPERTHERMIA");
+			RR_QuickDataWarning.setText("ALERT: HYPERTHERMIA");
+		}
+		if (pastLower > 5) {
+			System.out.println("HYPOTHERMIA");
+			RR_QuickDataWarning.setText("ALERT: HYPOTHERMIA");
+		}
+		
+		BT_QuickDataCurrent.setText("Quick Data: [Current Body Temperature = " + temp + " (°C)]");
 		BT_Series.getData().add(new XYChart.Data<Number, Number>(second, temp));
 		if (BT_Series.getData().size() > 10)
 			BT_Series.getData().remove(0);

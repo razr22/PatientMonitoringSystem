@@ -21,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 
 public class Main extends Application {
@@ -49,6 +50,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("MainDisplayStyle.css").toExternalForm());
 
 			window.setTitle("Patient Monitoring System v1.0");
+			window.getIcons().add(new Image(getClass().getResourceAsStream("Program Icon.png")));
 			window.setScene(scene);
 			window.show();
 			window.setOnCloseRequest(e -> {

@@ -4,6 +4,11 @@ public class Alarm {
 	private double upperBound;
 	private double lowerBound;
 	
+	public Alarm(){
+		this.setLowerBound(0);
+		this.setUpperBound(0);
+	}
+	
 	public Alarm(double upper, double lower){
 		this.setUpperBound(upper);
 		this.setLowerBound(lower);
