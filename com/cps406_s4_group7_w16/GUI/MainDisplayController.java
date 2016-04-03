@@ -39,6 +39,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -175,7 +176,15 @@ public class MainDisplayController implements Initializable {
 	// Saved Data Variables
 	
 	// Quick Data Labels
-	
+	@FXML
+	Label HR_QuickData = new Label();
+	@FXML
+	Label BP_QuickData = new Label();
+	@FXML
+	Label RR_QuickData = new Label();
+	@FXML
+	Label BT_QuickData = new Label();
+
 	// Quick Data Labels
 
 	/**
@@ -196,7 +205,7 @@ public class MainDisplayController implements Initializable {
 		timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
 
 			secondsPassed.set(secondsPassed.add(1).get());
-			System.out.println("Seconds Passed: " + secondsPassed.get());
+			//System.out.println("Seconds Passed: " + secondsPassed.get());
 			vitalSign.setHeartRate(HR_Gen.generate());
 			vitalSign.setSystolicBloodPressure((int) BP_SystolicGen.generate());
 			vitalSign.setDiastolicBloodPressure((int) BP_DiastolicGen.generate());
@@ -210,12 +219,9 @@ public class MainDisplayController implements Initializable {
 					vitalSign.getDiastolicBloodPressure());
 			updateRespiratoryRate(secondsPassed.get(), vitalSign.getRespiratoryRate());
 			updateTemperature(secondsPassed.get(), vitalSign.getBodyTemperature());
-
+			
+			System.out.println(vitalSign.getTimeStamp());
 			System.out.println(vitalSign.toString());
-			//System.out.println(vitalSign.getTimeStamp());
-			// TODO: For some reason the Log isn't saving the timeStamp, instead
-			// of trying to save Time Stamp as a String try as a Date object or
-			// something
 			log.addLogEntry(vitalSign);
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
@@ -394,17 +400,21 @@ public class MainDisplayController implements Initializable {
 
 	private void updateHeartRate(int second, double heartRate) {
 		HR_Series.getData().add(new XYChart.Data<Number, Number>(second, heartRate));
+		HR_QuickData.setText("Quick Data: [Current Heart Rate = " + heartRate + " (BPM)]");
 		if (HR_Series.getData().size() > 10)
 			HR_Series.getData().remove(0);
+		
 	}
 
 	private void updateRespiratoryRate(int second, double breathRate) {
 		RR_Series.getData().add(new XYChart.Data<Number, Number>(second, breathRate));
+		RR_QuickData.setText("Quick Data: [Current Respiration Rate = " + breathRate + " (RPM)]");
 		if (RR_Series.getData().size() > 10)
 			RR_Series.getData().remove(0);
 	}
 
 	private void updateBloodPressure(int second, int BP_Systolic, int BP_Diastolic) {
+		BP_QuickData.setText("Quick Data: [Current Blood Pressure = " + BP_Systolic + "/" + BP_Diastolic +  " (mm Hg)]");
 		BP_SystolicSeries.getData().add(new XYChart.Data<Number, Number>(second, BP_Systolic));
 		if (BP_SystolicSeries.getData().size() > 10)
 			BP_SystolicSeries.getData().remove(0);
@@ -414,6 +424,7 @@ public class MainDisplayController implements Initializable {
 	}
 
 	private void updateTemperature(int second, double temp) {
+		BT_QuickData.setText("Quick Data: [Current Body Temperature = " + temp + " (°C)]");
 		BT_Series.getData().add(new XYChart.Data<Number, Number>(second, temp));
 		if (BT_Series.getData().size() > 10)
 			BT_Series.getData().remove(0);

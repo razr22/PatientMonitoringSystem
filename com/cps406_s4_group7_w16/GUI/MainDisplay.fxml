@@ -151,7 +151,7 @@
                                     <Separator prefWidth="200.0" />
                                     <HBox minHeight="-Infinity" minWidth="-Infinity">
                                        <children>
-                                          <Label minHeight="-Infinity" minWidth="-Infinity" text="Quick Data: Heart Rate Highs &amp; Lows, etc...">
+                                          <Label fx:id="HR_QuickData" minHeight="-Infinity" minWidth="-Infinity" text="Quick Data: Heart Rate Highs &amp; Lows, etc...">
                                              <padding>
                                                 <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                                              </padding>
@@ -180,7 +180,7 @@
                                     <Separator prefWidth="200.0" />
                                     <HBox minHeight="-Infinity" minWidth="-Infinity">
                                        <children>
-                                          <Label minHeight="-Infinity" minWidth="-Infinity" text="Quick Data: Heart Rate Highs &amp; Lows, etc...">
+                                          <Label fx:id="RR_QuickData" minHeight="-Infinity" minWidth="-Infinity" text="Quick Data: Heart Rate Highs &amp; Lows, etc...">
                                              <padding>
                                                 <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                                              </padding>
@@ -217,7 +217,7 @@
                                     <Separator prefWidth="200.0" />
                                     <HBox minHeight="-Infinity" minWidth="-Infinity">
                                        <children>
-                                          <Label minHeight="-Infinity" minWidth="-Infinity" text="Quick Data: Heart Rate Highs &amp; Lows, etc...">
+                                          <Label fx:id="BP_QuickData" minHeight="-Infinity" minWidth="-Infinity" text="Quick Data: Heart Rate Highs &amp; Lows, etc...">
                                              <padding>
                                                 <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                                              </padding>
@@ -246,7 +246,7 @@
                                     <Separator prefWidth="200.0" />
                                     <HBox minHeight="-Infinity" minWidth="-Infinity">
                                        <children>
-                                          <Label minHeight="-Infinity" minWidth="-Infinity" text="Quick Data: Heart Rate Highs &amp; Lows, etc...">
+                                          <Label fx:id="BT_QuickData" minHeight="-Infinity" minWidth="-Infinity" text="Quick Data: Heart Rate Highs &amp; Lows, etc...">
                                              <padding>
                                                 <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                                              </padding>
