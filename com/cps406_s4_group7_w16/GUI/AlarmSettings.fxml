@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cps406_s4_group7_w16.GUI.AlarmSettingsController">
    <children>
       <TabPane prefHeight="225.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -12,32 +13,111 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="196.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Label layoutX="14.0" layoutY="41.0" text="Heart Rate Upper Bound:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="HR_UB" layoutX="266.0" layoutY="44.0" prefHeight="25.0" prefWidth="235.0" promptText="Default = 100.0" />
+                        <TextField fx:id="HR_LB" layoutX="266.0" layoutY="101.0" prefHeight="25.0" prefWidth="236.0" promptText="Default = 60.0" />
+                        <Label layoutX="14.0" layoutY="98.0" text="Heart Rate Lower Bound:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="573.0" layoutY="114.0" mnemonicParsing="false" onAction="#HRresetButton" prefHeight="59.0" prefWidth="126.0" text="Reset">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab text="Respiratory Rate Alarm Settings">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <Tab text="Respiratory Rate Alarm Settings">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="196.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children></AnchorPane>
-            </content>
-          </Tab>
+                        <Button layoutX="574.0" layoutY="114.0" mnemonicParsing="false" onAction="#RRresetButton" prefHeight="59.0" prefWidth="126.0" text="Reset">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="14.0" layoutY="41.0" text="Respiratory Rate Upper Bound:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="RR_UB" layoutX="319.0" layoutY="44.0" prefHeight="25.0" prefWidth="235.0" promptText="Default = 20.0" />
+                        <TextField fx:id="RR_LB" layoutX="319.0" layoutY="101.0" prefHeight="25.0" prefWidth="236.0" promptText="Default = 12.0" />
+                        <Label layoutX="14.0" layoutY="98.0" text="Respiratory Rate Lower Bound:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
             <Tab text="Blood Pressure Alarm Settings">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="196.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children></AnchorPane>
+                        <Label layoutX="14.0" layoutY="18.0" text="Systolic Pressure Upper Bound:">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="BP_SysUB" layoutX="267.0" layoutY="19.0" prefHeight="25.0" prefWidth="235.0" promptText="Default = 120.0" />
+                        <TextField fx:id="BP_SysLB" layoutX="267.0" layoutY="57.0" prefHeight="25.0" prefWidth="236.0" promptText="Default = 90.0" />
+                        <Label layoutX="15.0" layoutY="56.0" text="Systolic Pressure Lower Bound:">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="16.0" layoutY="134.0" text="Diastolic Pressure Lower Bound:">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="15.0" layoutY="96.0" text="Diastolic Pressure Upper Bound:">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="BP_DiaUB" layoutX="268.0" layoutY="97.0" prefHeight="25.0" prefWidth="235.0" promptText="Default = 90.0" />
+                        <TextField fx:id="BP_DiaLB" layoutX="268.0" layoutY="135.0" prefHeight="25.0" prefWidth="236.0" promptText="Default = 70.0" />
+                        <Button layoutX="573.0" layoutY="118.0" mnemonicParsing="false" onAction="#BPresetButton" prefHeight="59.0" prefWidth="126.0" text="Reset">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
                </content>
             </Tab>
             <Tab text="Body Temperature Alarm Settings">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="196.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children></AnchorPane>
+                        <Label layoutX="14.0" layoutY="41.0" text="Body Temperature Upper Bound:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="BT_UB" layoutX="340.0" layoutY="44.0" prefHeight="25.0" prefWidth="235.0" promptText="Default = 38.0" />
+                        <TextField fx:id="BT_LB" layoutX="340.0" layoutY="101.0" prefHeight="25.0" prefWidth="236.0" promptText="Default = 36.0" />
+                        <Label layoutX="14.0" layoutY="98.0" text="Body Temperature Lower Bound:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="582.0" layoutY="114.0" mnemonicParsing="false" onAction="#BTresetButton" prefHeight="59.0" prefWidth="126.0" text="Reset">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
                </content>
             </Tab>
         </tabs>

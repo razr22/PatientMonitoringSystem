@@ -2,7 +2,11 @@ package com.cps406_s4_group7_w16.BioInfo;
 
 import java.util.Random;
 import java.lang.Math;
-
+/**
+ * Class that defines a Generator data type. Generator is used for creating simulated values of sensor readings.
+ * @author Paul Martins
+ *
+ */
 public class Generator {
 	
 	protected boolean usesMetricSystem = true;
@@ -13,12 +17,12 @@ public class Generator {
 	 * Class constructor that uses an upper and lower bound as well as a boolean
 	 * to determine which unit system to use.
 	 * 
-	 * @param lower
-	 *            lower bound of number to be generated.
-	 * @param upper
-	 *            upper bound of number to be generated.
-	 * @param usesMetricStystem
-	 *            boolean that holds the unit of which values are to be
+	 * @param mid 
+	 *            Midpoint of number to be generated.
+	 * @param dev
+	 *            Deviation of number to be generated.
+	 * @param um
+	 *            Boolean that holds the unit of which values are to be
 	 *            generated. true for metric system, false for imperial system.
 	 */
 	public Generator(double mid, int dev, boolean um) {
@@ -28,12 +32,12 @@ public class Generator {
 	}
 
 	/**
-	 * Class constructor that uses an upper bound and a lower bound.
+	 * Class constructor that uses a midpoint and a deviation.
 	 * 
-	 * @param lower
-	 *            lower bound of number to be generated.
-	 * @param upper
-	 *            upper bound of number to be generated,
+	 * @param mid 
+	 *            Midpoint of number to be generated.
+	 * @param dev
+	 *            Deviation of number to be generated.
 	 */
 	public Generator(double mid, int dev) {
 		this.setDeviation(dev);
@@ -41,10 +45,10 @@ public class Generator {
 	}
 
 	/**
-	 * Generates a Double value from upper to lower bound as specified by the
+	 * Generates a Double value as specified by the
 	 * generator object.
 	 * 
-	 * @return Double value in between lower and upper bounds.
+	 * @return Double value within bounds.
 	 */
 	public double generate() {
 		double value = 0;
@@ -74,7 +78,7 @@ public class Generator {
 	/**
 	 * Getter method for deviation.
 	 * 
-	 * @return deviation of generator.
+	 * @return Deviation of generator.
 	 */
 	public double getDeviation() {
 		return deviation;
@@ -90,10 +94,19 @@ public class Generator {
 		this.deviation =  dev;
 	}
 	
+	/**
+	 * Setter method for midpoint.
+	 * @param mid
+	 			  Integer value for midpoint.
+	 */
 	public void setMidpoint(double mid){
 		this.midpoint = mid;
 	}
 	
+	/**
+	 * Getter method for midpoint
+	 * @return midpoint of generator.
+	 */
 	public double getMidpoint(){
 		return this.midpoint;
 	}

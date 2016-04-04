@@ -1,5 +1,10 @@
 package com.cps406_s4_group7_w16.Security;
 
+/**
+ * Class that defines an Account data type. Holds a username and password.
+ * @author Paul Martins
+ *
+ */
 public class Account {
 	
 	private String username;
