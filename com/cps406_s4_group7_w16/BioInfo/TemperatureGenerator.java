@@ -1,11 +1,5 @@
 package com.cps406_s4_group7_w16.BioInfo;
 
-/**
- * Class that defines a TemperatureGenerator data type. Generator is used for creating simulated values of sensor readings.
- * This class is different from the its inherited class because it must also allow for the conversion between units.
- * @author Paul Martins
- *
- */
 public class TemperatureGenerator extends Generator {
 
 	//constants
@@ -13,7 +7,7 @@ public class TemperatureGenerator extends Generator {
 	final int CONVERSION_OFFSET = 32;
 	
 	/**
-	 * Class constructor that uses a midpoint and a deviation.
+	 * Class constructor that uses a lower and an upper bound.
 	 * @param mid	midpoint of number to be generated.
 	 * @param dev	deviation from midpoint.
 	 */
@@ -22,7 +16,7 @@ public class TemperatureGenerator extends Generator {
 	}
 	
 	/**
-	 * Class constructor that uses a midpoint, a deviation as well as a boolean to determine which unit system to use.
+	 * Class constructor that uses an upper and a lower bound as well as a boolean to determine which unit system to use.
 	 * @param mid	midpoint of number to be generated.
 	 * @param upper	deviation from midpoint.
 	 * @param um

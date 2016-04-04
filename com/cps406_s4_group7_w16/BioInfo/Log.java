@@ -1,17 +1,15 @@
 package com.cps406_s4_group7_w16.BioInfo;
 
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * Class that defines a Log data type. Log holds a VitalSign for every quanta of time.
- * this list is eventually saved to a file.
- * @author Paul Martins
- *
- */
 public class Log {
 
 	// class members.
@@ -45,7 +43,7 @@ public class Log {
 		for(VitalSign vs : vitalLog){
 			writer.write(vs.getTimeStamp() + "\t");
 			writer.write(vs.getSystolicBloodPressure() + "/" + vs.getDiastolicBloodPressure() + " (mm Hg)\t\t\t");
-			writer.write(vs.getBodyTemperature() + " (ï¿½C)\t\t\t\t");
+			writer.write(vs.getBodyTemperature() + " (°C)\t\t\t\t");
 			writer.write(vs.getHeartRate() + " (BPM)\t\t\t");
 			writer.write(vs.getRespiratoryRate() + " (RPM)\t\n");
 		}

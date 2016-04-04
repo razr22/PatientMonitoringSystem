@@ -5,16 +5,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Scanner;
 
-/**
- * Class that defines a Patient data type. Patient object holds a name, age, height, weight and blood type of a patient being monitored.
- * @author Paul Martins
- *
- */
 public class Patient{
 
 private String name;
@@ -24,10 +21,6 @@ private String weight;
 private String bloodType;
 
 
-	/**
-	 * Default constructor for Patient class. 
-	 * Initializes Patient object to default values.
-	 */
 	public Patient(){
 		this.setName("");
 		this.setAge("");
@@ -36,14 +29,6 @@ private String bloodType;
 		this.setBloodType("");
 	}
 
-	/**
-	 * Constructor for Patient class.
-	 * @param name Name of patient.
-	 * @param age	Age of Patient
-	 * @param height	Height of Patient
-	 * @param weight	Weight of Patient
-	 * @param bloodType	Blood type of Patient.
-	 */
 	public Patient(String name, String age, String height, String weight, String bloodType){
 
 		this.name = name;
@@ -83,11 +68,7 @@ private String bloodType;
 		in.close();
 	}
 	
-	/**
-	 * method that saves a Patient's profile to a file.
-	 * @param filename file to be written to.
-	 * @throws IOException
-	 */
+	
 	public void savePatientProfile(String filename) throws IOException{
 		BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 		
@@ -114,82 +95,42 @@ private String bloodType;
 		
 	}
 	
-	/**
-	 * Getter for a Patient's name
-	 * @return name to be returned.
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * Setter for a Patient's name.
-	 * @param name Name to be added.
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/**
-	 * Getter for a Patient's age
-	 * @return age to be returned.
-	 */
 	public String getAge() {
 		return age;
 	}
 
-	/**
-	 * Setter for a Patient's age
-	 * @param age Age to be added.
-	 */
 	public void setAge(String age) {
 		this.age = age;
 	}
 
-	/**
-	 * Getter for a Patient's height.
-	 * @return height to be returned.
-	 */
 	public String getHeight() {
 		return height;
 	}
 
-	/**
-	 * Setter for a Patient's height
-	 * @param height Height to be added.
-	 */
 	public void setHeight(String height) {
 		this.height = height;
 	}
 
-	/**
-	 * Getter for a Patient's weight
-	 * @return weight to be returned.
-	 */
 	public String getWeight() {
 		return weight;
 	}
 
-	/**
-	 * Setter for a Patient's weight
-	 * @param weight Weight to be returned.
-	 */
 	public void setWeight(String weight) {
 		this.weight = weight;
 	}
 
-	/**
-	 * Getter for a Patient's blood type
-	 * @return blood type to be returned.
-	 */
 	public String getBloodType() {
 		return bloodType;
 	}
 
-	/**
-	 * Setter for a Patient's blood type
-	 * @param bloodType blood type to be returned.
-	 */
 	public void setBloodType(String bloodType) {
 		this.bloodType = bloodType;
 	}

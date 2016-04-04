@@ -10,19 +10,10 @@ import java.util.Scanner;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-/**
- * Class that defines an Agenda data type. An Agenda object holds a list of AgendaEvents.
- * @author Paul Martins
- *
- */
 public class Agenda {
 
 	final ObservableList<AgendaEvent> agenda = FXCollections.observableArrayList();
 
-	/**
-	 * Default Class Constructor.
-	 * Does nothing.
-	 */
 	public Agenda(){
 		
 	}
@@ -61,34 +52,18 @@ public class Agenda {
 		in.close();
 	}
 	
-	/**
-	 * Method that adds an event to the Agenda.
-	 * @param event AgendaEvent to be added.
-	 */
 	public void addEvent(AgendaEvent event){
 		agenda.add(event);
 	}
 	
-	/**
-	 * Method that removes the last event in the Agenda.
-	 */
 	public void removeEvent(){
 		agenda.remove(agenda.size()-1);
 	}
 
-	/**
-	 * Getter for the Agenda
-	 * @return Agenda to be returned.
-	 */
 	public ObservableList<AgendaEvent> getAgenda() {
 		return agenda;
 	}
 	
-	/**
-	 * Method that saves an Agenda to a file.
-	 * @param filename filename to be saved to.
-	 * @throws IOException
-	 */
 	public void saveAgenda(String filename) throws IOException{
 		BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
 		writer.write("AGENDA\n");
