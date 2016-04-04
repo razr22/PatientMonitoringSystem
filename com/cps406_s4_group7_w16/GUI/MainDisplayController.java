@@ -121,7 +121,7 @@ public class MainDisplayController implements Initializable {
 	// Series--------------------------------------------------------------------------
 
 	// Generator Constants
-	private final int HR_MID = 110;// 80
+	private final int HR_MID = 80;// 80
 	private final int HR_DEV = 20;
 	private final int RR_MID = 16;
 	private final int RR_DEV = 4;
@@ -247,34 +247,8 @@ public class MainDisplayController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		displayAgenda();
-		// Timeline
-		// Initizalization-----------------------------------------------------------
-		timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
-
-			secondsPassed.set(secondsPassed.add(1).get());
-			// System.out.println("Seconds Passed: " + secondsPassed.get());
-			vitalSign.setHeartRate(HR_Gen.generate());
-			vitalSign.setSystolicBloodPressure((int) BP_SystolicGen.generate());
-			vitalSign.setDiastolicBloodPressure((int) BP_DiastolicGen.generate());
-			vitalSign.setRespiratoryRate(RR_Gen.generate());
-			vitalSign.setBodyTemperature(BT_Gen.generate());
-			calendar = Calendar.getInstance();
-			vitalSign.setTimeStamp(timeformat.format(calendar.getTime()));
-
-			updateHeartRate(secondsPassed.get(), vitalSign.getHeartRate());
-			updateBloodPressure(secondsPassed.get(), vitalSign.getSystolicBloodPressure(),
-					vitalSign.getDiastolicBloodPressure());
-			updateRespiratoryRate(secondsPassed.get(), vitalSign.getRespiratoryRate());
-			updateTemperature(secondsPassed.get(), vitalSign.getBodyTemperature());
-
-			System.out.println(vitalSign.getTimeStamp());
-			System.out.println(vitalSign.toString());
-			log.addLogEntry(vitalSign);
-		}));
-		timeline.setCycleCount(Timeline.INDEFINITE);
-		// --------------------------------------------------------------------------------------
+		timelineInit();
 		chartInit();
-		timeline.playFromStart();
 	}
 
 	/**
@@ -406,6 +380,67 @@ public class MainDisplayController implements Initializable {
 		System.exit(0);
 	}
 
+	public void detachPatient(){
+		timeline.stop();
+		schedule.getItems().clear();
+		HR_QuickDataWarning.setText("ALERT: PATIENT DETACHED");
+		BP_QuickDataSystolicWarning.setText("ALERT: PATIENT DETACHED");
+		BP_QuickDataDiastolicWarning.setText("ALERT: PATIENT DETACHED");
+		RR_QuickDataWarning.setText("ALERT: PATIENT DETACHED");
+		BT_QuickDataWarning.setText("ALERT: PATIENT DETACHED");
+		
+		clearPatientProfile();
+	}
+	
+	public void attachPatient(){
+		HR_QuickDataWarning.setText("");
+		BP_QuickDataSystolicWarning.setText("");
+		BP_QuickDataDiastolicWarning.setText("");
+		RR_QuickDataWarning.setText("");
+		BT_QuickDataWarning.setText("");
+		
+		HR_Series = new XYChart.Series<>();
+		RR_Series = new XYChart.Series<>();
+		BP_SystolicSeries = new XYChart.Series<>();
+		BP_DiastolicSeries = new XYChart.Series<>();
+		BT_Series = new XYChart.Series<>();
+		
+		HR_Data = FXCollections.observableArrayList();
+		RR_Data = FXCollections.observableArrayList();
+		BP_Data = FXCollections.observableArrayList();
+		BT_Data = FXCollections.observableArrayList();
+		
+		chartInit();
+		timelineInit();
+	}
+	
+	private void timelineInit(){
+		timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
+			secondsPassed.set(secondsPassed.add(1).get());
+			// System.out.println("Seconds Passed: " + secondsPassed.get());
+			vitalSign.setHeartRate(HR_Gen.generate());
+			vitalSign.setSystolicBloodPressure((int) BP_SystolicGen.generate());
+			vitalSign.setDiastolicBloodPressure((int) BP_DiastolicGen.generate());
+			vitalSign.setRespiratoryRate(RR_Gen.generate());
+			vitalSign.setBodyTemperature(BT_Gen.generate());
+			calendar = Calendar.getInstance();
+			vitalSign.setTimeStamp(timeformat.format(calendar.getTime()));
+
+			updateHeartRate(secondsPassed.get(), vitalSign.getHeartRate());
+			updateBloodPressure(secondsPassed.get(), vitalSign.getSystolicBloodPressure(),
+					vitalSign.getDiastolicBloodPressure());
+			updateRespiratoryRate(secondsPassed.get(), vitalSign.getRespiratoryRate());
+			updateTemperature(secondsPassed.get(), vitalSign.getBodyTemperature());
+
+			System.out.println(vitalSign.getTimeStamp());
+			System.out.println(vitalSign.toString());
+			log.addLogEntry(vitalSign);
+		}));
+		timeline.setCycleCount(Timeline.INDEFINITE);
+		timeline.playFromStart();
+
+	}
+	
 	private void getPatientProfile() {
 
 		patient.setName(patientName.getText());
@@ -416,16 +451,8 @@ public class MainDisplayController implements Initializable {
 	}
 
 	private void setPatientProfile() {
-		patientName.clear();
-		;
-		patientAge.clear();
-		;
-		patientHeight.clear();
-		;
-		patientWeight.clear();
-		;
-		patientBloodType.clear();
-
+		
+		clearPatientProfile();
 		patientName.setText(patient.getName());
 		patientAge.setText(patient.getAge());
 		patientHeight.setText(patient.getHeight());
@@ -433,6 +460,14 @@ public class MainDisplayController implements Initializable {
 		patientBloodType.setText(patient.getBloodType());
 	}
 
+	private void clearPatientProfile(){
+		patientName.clear();
+		patientAge.clear();
+		patientHeight.clear();
+		patientWeight.clear();
+		patientBloodType.clear();
+	}
+	
 	/**
 	 * This method is used to initialize all four charts to allow x and y Axis
 	 * to adjust to appropriate ranges. Also allows charts to have visible data

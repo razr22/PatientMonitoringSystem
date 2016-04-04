@@ -15,7 +15,6 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#displayPatientSimulator" text="Patient Simulate Controls" />
                   <MenuItem mnemonicParsing="false" onAction="#openButton" text="Open" />
                   <MenuItem mnemonicParsing="false" onAction="#saveButton" text="Save" />
                   <MenuItem mnemonicParsing="false" onAction="#exitButton" text="Exit" />
@@ -23,7 +22,10 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
+              <MenuItem mnemonicParsing="false" onAction="#displayPatientSimulator" text="Patient Simulate Controls" />
               <MenuItem mnemonicParsing="false" onAction="#displayAlarmSettings" text="Alarm Settings" />
+                  <MenuItem mnemonicParsing="false" onAction="#detachPatient" text="Detach Patient" />
+                  <MenuItem mnemonicParsing="false" onAction="#attachPatient" text="Attach Patient" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
