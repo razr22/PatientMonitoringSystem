@@ -44,16 +44,15 @@ public class Main extends Application {
 		try {
 			window = primaryStage;
 
-			Parent root = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("MainDisplay.fxml"));
 
-			Scene scene = new Scene(root, 500, 500);
-			scene.getStylesheets().add(getClass().getResource("LoginStyle.css").toExternalForm());
+			Scene scene = new Scene(root, 1080, 720);
+			scene.getStylesheets().add(getClass().getResource("MainDisplayStyle.css").toExternalForm());
 
 			window.setTitle("Patient Monitoring System v1.0");
 			window.getIcons().add(new Image(getClass().getResourceAsStream("Program Icon.png")));
 			window.setScene(scene);
 			window.show();
-			window.setResizable(false);
 			window.setOnCloseRequest(e -> {
 				Platform.exit();
 				System.exit(0);

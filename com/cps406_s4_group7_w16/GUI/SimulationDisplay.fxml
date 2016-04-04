@@ -39,7 +39,7 @@
                </padding>
                <children>
                   <Button mnemonicParsing="false" text="Heart Attack" />
-                  <Button layoutX="85.0" layoutY="20.0" mnemonicParsing="false" text="High Blood Pressure" />
+                  <Button layoutX="85.0" layoutY="20.0" mnemonicParsing="false" text="High Blood Preasure" />
                   <Button layoutX="337.0" layoutY="20.0" mnemonicParsing="false" text="Seizure" />
                </children>
             </HBox>
