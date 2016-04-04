@@ -6,7 +6,12 @@ public class AccountList {
 	
 	private ArrayList<Account> accountList = new ArrayList<Account>();
 	
+	public AccountList(){
+		//making sure the AccountList has at least one account.
+		Account account = new Account("admin", "password");
+		accountList.add(account);
 	
+	}
 	/**
 	 * Adds an account to the master accountList
 	 * @param account	Account to be added to the list.
@@ -29,14 +34,14 @@ public class AccountList {
 	 * @param password	String representing the password to test.
 	 * @return	1 if the username and password are listed. 0 if they are not.
 	 */
-	public int isValidUsernameAndPassword(String username, String password){
+	public boolean isValidUsernameAndPassword(String username, String password){
 		for(Account a : accountList){
 			if(a.getUsername() == username && a.getPassword() == password){
-				return 0;
+				return true;
 			}
 		}
 		
 		//invalid username and password 
-		return 1;
+		return false;
 	}
 }
