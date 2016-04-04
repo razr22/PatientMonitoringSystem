@@ -127,8 +127,8 @@ public class MainDisplayController implements Initializable {
 	private final int RR_DEV = 4;
 	private final int BB_SYSTOLICMID = 105;
 	private final int BB_SYSTOLICDEV = 15;
-	private final int BB_DIASTOLICMID = 110;
-	private final int BB_DIASTOLICDEV = 30;
+	private final int BB_DIASTOLICMID = 80;
+	private final int BB_DIASTOLICDEV = 10;
 	private final int BT_MID = 37;
 	private final int BT_DEV = 1;
 
@@ -136,18 +136,11 @@ public class MainDisplayController implements Initializable {
 
 	// Generator
 	// objects-------------------------------------------------------------------
-	private Generator HR_Gen = new Generator(HR_MID, HR_DEV); // beats per
-																// minute
-	private Generator RR_Gen = new Generator(RR_MID, RR_DEV); // breaths per
-																// minute
-	private Generator BP_SystolicGen = new Generator(BB_SYSTOLICMID, BB_SYSTOLICDEV); // Systolic
-																						// Blood
-																						// Pressure
-	private Generator BP_DiastolicGen = new Generator(BB_DIASTOLICMID, BB_DIASTOLICDEV); // Diastolic
-																							// Blood
-																							// Pressure
-	private TemperatureGenerator BT_Gen = new TemperatureGenerator(BT_MID, BT_DEV); // Degrees
-																					// Celsius
+	private Generator HR_Gen = new Generator(HR_MID, HR_DEV); // beats per minute
+	private Generator RR_Gen = new Generator(RR_MID, RR_DEV); // breaths per minute
+	private BloodPressureGenerator BP_Gen = new BloodPressureGenerator(BB_SYSTOLICMID, BB_SYSTOLICDEV, BB_DIASTOLICMID, BB_DIASTOLICDEV);
+	private BloodPressure bpObj;
+	private TemperatureGenerator BT_Gen = new TemperatureGenerator(BT_MID, BT_DEV); // Degrees Celsius
 	// Generator
 	// objects-------------------------------------------------------------------
 
@@ -229,7 +222,7 @@ public class MainDisplayController implements Initializable {
 	// Alarms
 	Alarm HR_Alarm = new Alarm(100, 60);
 	Alarm BP_SystolicAlarm = new Alarm(120, 90);
-	Alarm BP_DiastolicAlarm = new Alarm(140, 80);
+	Alarm BP_DiastolicAlarm = new Alarm(90, 70);
 	Alarm RR_Alarm = new Alarm(20, 12);
 	Alarm BT_Alarm = new Alarm(38, 36);
 	// Alarms
@@ -419,8 +412,9 @@ public class MainDisplayController implements Initializable {
 			secondsPassed.set(secondsPassed.add(1).get());
 			// System.out.println("Seconds Passed: " + secondsPassed.get());
 			vitalSign.setHeartRate(HR_Gen.generate());
-			vitalSign.setSystolicBloodPressure((int) BP_SystolicGen.generate());
-			vitalSign.setDiastolicBloodPressure((int) BP_DiastolicGen.generate());
+			bpObj = BP_Gen.generate();
+			vitalSign.setSystolicBloodPressure((int) bpObj.getSystolic());
+			vitalSign.setDiastolicBloodPressure((int) bpObj.getDiastolic());
 			vitalSign.setRespiratoryRate(RR_Gen.generate());
 			vitalSign.setBodyTemperature(BT_Gen.generate());
 			calendar = Calendar.getInstance();
@@ -569,6 +563,8 @@ public class MainDisplayController implements Initializable {
 				pastUpper++;
 			if (HR_Series.getData().get(i).getYValue().doubleValue() < HR_Alarm.getLowerBound()) 
 				pastLower++;	
+			
+			int HR_Average = 0; 
 		}
 
 		if (pastUpper > 5) {

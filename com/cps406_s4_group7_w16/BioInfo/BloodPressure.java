@@ -5,6 +5,11 @@ public class BloodPressure {
 	private double systolic;
 	private double diastolic;
 	
+	public BloodPressure(){
+		this.setSystolic(0);
+		this.setDiastolic(0);
+	}
+	
 	public BloodPressure(double sys, double dia){
 		this.setSystolic(sys);
 		this.setDiastolic(dia);
