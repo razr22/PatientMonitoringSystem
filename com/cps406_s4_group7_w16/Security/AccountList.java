@@ -2,10 +2,18 @@ package com.cps406_s4_group7_w16.Security;
 
 import java.util.ArrayList;
 
+/**
+ * Class that defines an AccountList data type. Holds a list to all Accounts.
+ * @author Paul Martins
+ *
+ */
 public class AccountList {
 	
 	private ArrayList<Account> accountList = new ArrayList<Account>();
 	
+	/**
+	 * Class Constructor that initializes the AccountList with one 'master' password.
+	 */
 	public AccountList(){
 		//making sure the AccountList has at least one account.
 		Account account = new Account("admin", "password");
