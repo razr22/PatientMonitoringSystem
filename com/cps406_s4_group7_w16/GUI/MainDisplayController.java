@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
@@ -227,6 +228,9 @@ public class MainDisplayController implements Initializable {
 	Alarm BT_Alarm = new Alarm(38, 36);
 	// Alarms
 
+	private static DecimalFormat df2 = new DecimalFormat(".##");
+
+	
 	/**
 	 * A method from "Initializable" that must be implemented. This is
 	 * implemented so that the program can go through an initialize phase, when
@@ -343,7 +347,7 @@ public class MainDisplayController implements Initializable {
 
 	public void openButton() throws FileNotFoundException {
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setInitialDirectory(new File(".\\"));
+		fileChooser.setInitialDirectory(new File("."));
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"));
 
 		File selectedFile = fileChooser.showOpenDialog(null);
@@ -543,6 +547,7 @@ public class MainDisplayController implements Initializable {
 	private void updateHeartRate(int second, double heartRate) {
 		int pastUpper = 0;
 		int pastLower = 0;
+
 		// Checks Current Value if past bounds and Displays it to Quick
 		// Data---------------------------------------
 		if (heartRate >= HR_Alarm.getUpperBound())
@@ -552,7 +557,6 @@ public class MainDisplayController implements Initializable {
 		else
 			HR_QuickDataWarning.setText("");
 
-		HR_QuickDataCurrent.setText("Quick Data: [Current Heart Rate = " + heartRate + " (BPM)]");
 		// Checks Current Value if past bounds and Displays it to Quick
 		// Data---------------------------------------
 
@@ -563,8 +567,6 @@ public class MainDisplayController implements Initializable {
 				pastUpper++;
 			if (HR_Series.getData().get(i).getYValue().doubleValue() < HR_Alarm.getLowerBound()) 
 				pastLower++;	
-			
-			int HR_Average = 0; 
 		}
 
 		if (pastUpper > 5) {
@@ -577,7 +579,6 @@ public class MainDisplayController implements Initializable {
 		}
 		// If more that 5 points are higher than Upper Bound then Heart
 		// Attack-----------------------------------------------
-
 		HR_Series.getData().add(new XYChart.Data<Number, Number>(second, heartRate));
 		if (HR_Series.getData().size() > 10)
 			HR_Series.getData().remove(0);
