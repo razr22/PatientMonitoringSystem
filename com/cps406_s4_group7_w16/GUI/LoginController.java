@@ -68,7 +68,7 @@ public class LoginController implements Initializable{
 			passwordField.clear();
 			loginField.setPromptText("Enter Correct Username");
 			passwordField.setPromptText("Enter Correct Password");
-			System.out.println("didn't worked");
+			System.out.println("didn't work");
 		}
 		
 		

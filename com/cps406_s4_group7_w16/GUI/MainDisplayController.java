@@ -655,6 +655,7 @@ public class MainDisplayController implements Initializable {
 		}
 		// If more that 5 points are higher than Upper Bound then Heart
 		// Attack-----------------------------------------------
+		HR_QuickDataCurrent.setText("Quick Data: [Current Heart Rate = " + heartRate + " (BPM)]");
 		HR_Series.getData().add(new XYChart.Data<Number, Number>(second, heartRate));
 		if (HR_Series.getData().size() > 10)
 			HR_Series.getData().remove(0);
