@@ -445,10 +445,6 @@ public class MainDisplayController implements Initializable {
 		log.saveLog(patient.getName() + ".txt");
 	}
 
-	/**
-	 * Method used by the "Exit" file item. Exits program. TODO: Figure out how
-	 * to access outer class from inner class to exit
-	 */
 	public void exitButton() {
 		System.exit(0);
 	}
@@ -707,12 +703,18 @@ public class MainDisplayController implements Initializable {
 			BP_QuickDataSystolicWarning.setText("WARNING: SYSTOLIC PRESSURE PAST UPPER BOUND");
 		else if (BP_Systolic <= BP_SystolicAlarm.getLowerBound()) // sys too low
 			BP_QuickDataSystolicWarning.setText("WARNING: SYSTOLIC PRESSURE PAST LOWER BOUND");
-		else if (BP_Diastolic >= BP_DiastolicAlarm.getUpperBound()) // dia too
+		else{
+			BP_QuickDataSystolicWarning.setText("");
+		}
+		if (BP_Diastolic >= BP_DiastolicAlarm.getUpperBound()) // dia too
 																	// high
 			BP_QuickDataDiastolicWarning.setText("WARNING: DIASTOLIC PRESSURE PAST UPPER BOUND");
 		else if (BP_Diastolic <= BP_DiastolicAlarm.getLowerBound()) // dia too
 																	// low
 			BP_QuickDataDiastolicWarning.setText("WARNING: DIASTOLIC PRESSURE PAST LOWER BOUND");
+		else{
+			BP_QuickDataDiastolicWarning.setText("");	
+		}
 
 		for (int i = 0; i <= BP_SystolicSeries.getData().size() - 1; i++) {
 			if (BP_SystolicSeries.getData().get(i).getYValue().doubleValue() > BP_SystolicAlarm.getUpperBound())
@@ -724,10 +726,10 @@ public class MainDisplayController implements Initializable {
 			if (BP_DiastolicSeries.getData().get(i).getYValue().doubleValue() < BP_DiastolicAlarm.getLowerBound())
 				pastLower_D++;
 		}
-		// System.out.println("pastUpper_S: " + pastUpper_S);
-		// System.out.println("pastLower_S: " + pastLower_S);
-		// System.out.println("pastUpper_D: " + pastUpper_D);
-		// System.out.println("pastLower_D: " + pastLower_D);
+		System.out.println("pastUpper_S: " + pastUpper_S);
+		System.out.println("pastLower_S: " + pastLower_S);
+		System.out.println("pastUpper_D: " + pastUpper_D);
+		System.out.println("pastLower_D: " + pastLower_D);
 		if (pastUpper_S > 5) {
 			// System.out.println("ISOLATED SYSTOLIC HYPERTENSION");
 			BP_QuickDataSystolicWarning.setText("ALERT: ISOLATED SYSTOLIC HYPERTENSION");
@@ -744,18 +746,7 @@ public class MainDisplayController implements Initializable {
 			// System.out.println("ISOLATED DIASTOLIC HYPOTENSION");
 			BP_QuickDataDiastolicWarning.setText("ALERT: ISOLATED DIASTOLIC HYPOTENSION");
 		}
-		if (pastUpper_S > 5 && pastUpper_D > 5) {
-			// System.out.println("HIGH BLOOD PRESSURE");
-			BP_QuickDataSystolicWarning.setText("ALERT: HIGH BLOOD PRESSURE");
-			BP_QuickDataDiastolicWarning.setText("ALERT: HIGH BLOOD PRESSURE");
-
-		}
-		if (pastLower_S > 5 && pastLower_D > 5) {
-			// System.out.println("LOW BLOOD PRESSURE");
-			BP_QuickDataSystolicWarning.setText("ALERT: LOW BLOOD PRESSURE");
-			BP_QuickDataDiastolicWarning.setText("ALERT: LOW BLOOD PRESSURE");
-
-		}
+		
 
 		BP_QuickDataCurrent
 				.setText("Quick Data: [Current Blood Pressure = " + BP_Systolic + "/" + BP_Diastolic + " (mm Hg)]");

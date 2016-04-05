@@ -44,7 +44,7 @@ public class AccountList {
 	 */
 	public boolean isValidUsernameAndPassword(String username, String password){
 		for(Account a : accountList){
-			if(a.getUsername().equals(username) && a.getPassword().equals(password) ){
+			if(a.getUsername().equals(username) && a.getPassword().equals(password)){
 				return true;
 			}
 		}
