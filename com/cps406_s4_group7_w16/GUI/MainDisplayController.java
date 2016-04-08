@@ -10,23 +10,19 @@ package com.cps406_s4_group7_w16.GUI;
 
 import com.cps406_s4_group7_w16.BioInfo.*;
 import com.cps406_s4_group7_w16.PatientInfo.*;
-import com.cps406_s4_group7_w16.Security.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -49,27 +45,28 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
-import javafx.scene.shape.Polygon;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class MainDisplayController implements Initializable {
+	// MenuItems
+	// Variables---------------------------------------------------------------
 	@FXML
 	MenuItem attachPatient = new MenuItem();
 	@FXML
 	MenuItem detachPatient = new MenuItem();
+	@FXML
+	MenuItem patientSim = new MenuItem();
+	@FXML
+	MenuItem alarmSettingsMenuItem = new MenuItem();
+
+	// MenuItems
+	// Variables---------------------------------------------------------------
 
 	// Agenda
 	// Variables----------------------------------------------------------------
-
 	@FXML
 	TableView<AgendaEvent> schedule;
 	@FXML
@@ -113,7 +110,6 @@ public class MainDisplayController implements Initializable {
 	private TextField patientWeight;
 	@FXML
 	private TextField patientBloodType;
-
 	// Patient Profile
 	// Variables-------------------------------------------------------------
 
@@ -127,8 +123,8 @@ public class MainDisplayController implements Initializable {
 	// Chart
 	// Series--------------------------------------------------------------------------
 
-	// Generator Constants
-	private int HR_MID = 80;// 80
+	// Generator Midpoints and Deviations-------------------------
+	private int HR_MID = 80;
 	private int HR_DEV = 20;
 	private int RR_MID = 16;
 	private int RR_DEV = 4;
@@ -138,20 +134,16 @@ public class MainDisplayController implements Initializable {
 	private int BP_DIASTOLICDEV = 10;
 	private int BT_MID = 37;
 	private int BT_DEV = 1;
-
-	// Generator Constants
+	// Generator Midpoints and Deviations-------------------------
 
 	// Generator
 	// objects-------------------------------------------------------------------
-	private Generator HR_Gen = new Generator(HR_MID, HR_DEV); // beats per
-																// minute
-	private Generator RR_Gen = new Generator(RR_MID, RR_DEV); // breaths per
-																// minute
+	private Generator HR_Gen = new Generator(HR_MID, HR_DEV);
+	private Generator RR_Gen = new Generator(RR_MID, RR_DEV);
 	private BloodPressureGenerator BP_Gen = new BloodPressureGenerator(BP_SYSTOLICMID, BP_SYSTOLICDEV, BP_DIASTOLICMID,
 			BP_DIASTOLICDEV);
 	private BloodPressure bpObj;
-	private TemperatureGenerator BT_Gen = new TemperatureGenerator(BT_MID, BT_DEV); // Degrees
-																					// Celsius
+	private TemperatureGenerator BT_Gen = new TemperatureGenerator(BT_MID, BT_DEV);
 	// Generator
 	// objects-------------------------------------------------------------------
 
@@ -198,7 +190,7 @@ public class MainDisplayController implements Initializable {
 	// Line
 	// Charts----------------------------------------------------------------------------------
 
-	// Saved Data Variables
+	// Saved Data Variables-----------------------------------------------------
 	Log log = new Log();
 	VitalSign vitalSign = new VitalSign();
 	Patient patient = new Patient();
@@ -206,9 +198,9 @@ public class MainDisplayController implements Initializable {
 
 	DateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
 	Calendar calendar;
-	// Saved Data Variables
+	// Saved Data Variables-----------------------------------------------------
 
-	// Quick Data Labels
+	// Quick Data Labels--------------------------------
 	@FXML
 	Label HR_QuickDataCurrent = new Label();
 	@FXML
@@ -228,18 +220,21 @@ public class MainDisplayController implements Initializable {
 	Label RR_QuickDataWarning = new Label();
 	@FXML
 	Label BT_QuickDataWarning = new Label();
-	// Quick Data Labels
+	// Quick Data Labels--------------------------------
 
-	// Alarms
+	// Alarms----------------------------------------------------
 	Alarm HR_Alarm = new Alarm(100, 60);
 	Alarm BP_SystolicAlarm = new Alarm(120, 90);
 	Alarm BP_DiastolicAlarm = new Alarm(90, 70);
 	Alarm RR_Alarm = new Alarm(20, 12);
 	Alarm BT_Alarm = new Alarm(38, 36);
-	// Alarms
+	// Alarms----------------------------------------------------
 
-	private static DecimalFormat df2 = new DecimalFormat(".##");
-
+	// Decimal Format variable used for rounding decimal to two decimal places
+	public DecimalFormat df2 = new DecimalFormat(".##");
+	
+	
+//*****************************************METHODS USED BY GUI ITEMS*****************************************************
 	/**
 	 * A method from "Initializable" that must be implemented. This is
 	 * implemented so that the program can go through an initialize phase, when
@@ -258,7 +253,6 @@ public class MainDisplayController implements Initializable {
 		timelineInit();
 		chartInit();
 	}
-
 	/**
 	 * Opens a new window for simulation control, which influences values that
 	 * ultimately changes the behavior of the patients heart rate, blood
@@ -267,6 +261,7 @@ public class MainDisplayController implements Initializable {
 	 * @throws IOException
 	 */
 	public void displayPatientSimulator() throws IOException {
+		patientSim.setDisable(true);
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("SimulationDisplay.fxml"));
 		loader.load();
@@ -298,11 +293,16 @@ public class MainDisplayController implements Initializable {
 		patientSimulationTimeline.playFromStart();
 		window.setOnCloseRequest(e -> {
 			patientSimulationTimeline.stop();
+			patientSim.setDisable(false);
 		});
 	}
-
+	/**
+	 * Opens a new window for control over the alarm settings/ boundaries
+	 * 
+	 * @throws IOException
+	 */
 	public void displayAlarmSettings() throws IOException {
-
+		alarmSettingsMenuItem.setDisable(true);
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("AlarmSettings.fxml"));
 		loader.load();
@@ -353,10 +353,16 @@ public class MainDisplayController implements Initializable {
 		alarmSettingsTimeline.setCycleCount(Timeline.INDEFINITE);
 		alarmSettingsTimeline.playFromStart();
 		window.setOnCloseRequest(e -> {
+			alarmSettingsMenuItem.setDisable(false);
 			alarmSettingsTimeline.stop();
 		});
 	}
-
+	/**
+	 * Opens a new window and displays names of those involved in the
+	 * development of this Patient Simulator
+	 * 
+	 * @throws IOException
+	 */
 	public void displayAboutPage() throws IOException {
 		System.out.println("About Page");
 
@@ -371,13 +377,11 @@ public class MainDisplayController implements Initializable {
 		window.setScene(scene);
 		window.show();
 	}
-
 	/**
 	 * Method used by the "Add Event" button. Adds an entry to the Patient
 	 * Agenda
 	 */
-	public void addAgendaEntryButton() {
-		// System.out.println("Add");
+	public void addAgendaEntryButton() { // System.out.println("Add");
 
 		String tempStringTime = hour.getValue() + minute.getValue();
 		int tempTime;
@@ -404,7 +408,6 @@ public class MainDisplayController implements Initializable {
 		}
 
 	}
-
 	/**
 	 * Method used by the "Remove Event" button. Removes an entry from the
 	 * Patient Agenda
@@ -416,7 +419,12 @@ public class MainDisplayController implements Initializable {
 			schedule.getSelectionModel().clearSelection();
 		}
 	}
-
+	/**
+	 * Method used by the "Open" menuItem in order to open saved file and load
+	 * Patient Profile and Agenda Data
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	public void openButton() throws FileNotFoundException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialDirectory(new File("."));
@@ -433,22 +441,32 @@ public class MainDisplayController implements Initializable {
 			// System.out.println("File selection cancelled");
 		}
 	}
-
+	/**
+	 * Method used by the "Save" menuItem in order to save Patient Profile,
+	 * Agenda, and Vital Sign Data
+	 * 
+	 * @throws IOException
+	 */
 	public void saveButton() throws IOException {
 		getPatientProfile();
-		if(patient.getName().equals(null))
+		if (patient.getName().equals(null))
 			patient.savePatientProfile("Person.txt");
-		else{
-		patient.savePatientProfile(patient.getName() + ".txt");
+		else {
+			patient.savePatientProfile(patient.getName() + ".txt");
 		}
 		agenda.saveAgenda(patient.getName() + ".txt");
 		log.saveLog(patient.getName() + ".txt");
 	}
-
+	/**
+	 * Method used by the "Exit" menuItem in order to exit the Program
+	 */
 	public void exitButton() {
 		System.exit(0);
 	}
-
+	/**
+	 * Method used by the "Detach" menuItem to clear Patient Profile, and
+	 * Agenda. Also stops all line charts
+	 */
 	public void detachPatient() {
 		timeline.stop();
 		attachPatient.setDisable(false);
@@ -462,7 +480,9 @@ public class MainDisplayController implements Initializable {
 
 		clearPatientProfile();
 	}
-
+	/**
+	 * Method used by the "Attach" menuItem to Reset all line charts
+	 */
 	public void attachPatient() {
 		HR_QuickDataWarning.setText("");
 		BP_QuickDataSystolicWarning.setText("");
@@ -485,7 +505,13 @@ public class MainDisplayController implements Initializable {
 		chartInit();
 		timelineInit();
 	}
-
+//*****************************************METHODS USED BY GUI ITEMS*****************************************************
+	
+//*****************************************HELPER METHODS*****************************************************	
+	/**
+	 * Initializes Main Display timeline, which counts the amount of seconds
+	 * passed and updates all line charts
+	 */
 	private void timelineInit() {
 		timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
 			secondsPassed.set(secondsPassed.add(1).get());
@@ -513,7 +539,10 @@ public class MainDisplayController implements Initializable {
 		timeline.playFromStart();
 
 	}
-
+	/**
+	 * Gets information from Patient Profile TextFields and passes them to
+	 * Patient profile Data Structure where it can be saved and loaded
+	 */
 	private void getPatientProfile() {
 
 		patient.setName(patientName.getText());
@@ -522,7 +551,10 @@ public class MainDisplayController implements Initializable {
 		patient.setWeight(patientWeight.getText());
 		patient.setBloodType(patientBloodType.getText());
 	}
-
+	/**
+	 * Clears Patient Profile TextFields and loads information given by Patient
+	 * Profile Data Structure
+	 */
 	private void setPatientProfile() {
 
 		clearPatientProfile();
@@ -533,6 +565,9 @@ public class MainDisplayController implements Initializable {
 		patientBloodType.setText(patient.getBloodType());
 	}
 
+	/**
+	 * Clears all Patient Profile TextFields
+	 */
 	private void clearPatientProfile() {
 		patientName.clear();
 		patientAge.clear();
@@ -540,13 +575,13 @@ public class MainDisplayController implements Initializable {
 		patientWeight.clear();
 		patientBloodType.clear();
 	}
-
 	/**
 	 * This method is used to initialize all four charts to allow x and y Axis
 	 * to adjust to appropriate ranges. Also allows charts to have visible data
 	 * points on graph. Adds each respective series to respective data lists,
 	 * and adds each respective data lists to respective charts.
 	 */
+	@SuppressWarnings("unchecked")
 	private void chartInit() {
 		HRxAxis.setForceZeroInRange(false);
 		HRyAxis.setForceZeroInRange(false);
@@ -574,7 +609,6 @@ public class MainDisplayController implements Initializable {
 		BT_Data.add(BT_Series);
 		BT_Chart.setData(BT_Data);
 	}
-
 	/**
 	 * This method is used to reset the textbox and dropdowns used for Agenda
 	 * entry to its initial values. This method is used after every time an
@@ -589,12 +623,10 @@ public class MainDisplayController implements Initializable {
 		minute.setValue("00");
 		am_pm.setValue("AM");
 	}
-
 	/**
 	 * This method is used for the initialization of the Agenda Form and the
 	 * Agenda Table
 	 */
-
 	private void displayAgenda() {
 		hour.setItems(FXCollections.observableArrayList("00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
 				"10", "11", "12"));
@@ -620,6 +652,16 @@ public class MainDisplayController implements Initializable {
 		});
 	}
 
+	/**
+	 * A randomly generated hearRate is passed into method and added to
+	 * lineChart Series, while simultaneously checking if the randomly generated
+	 * value is above or below current alarm settings. If the value falls out of
+	 * range then appropriate alerts are displayed. If five data points are out
+	 * of range then a warning is displayed
+	 * 
+	 * @param second
+	 * @param heartRate
+	 */
 	private void updateHeartRate(int second, double heartRate) {
 		int pastUpper = 0;
 		int pastLower = 0;
@@ -662,6 +704,16 @@ public class MainDisplayController implements Initializable {
 
 	}
 
+	/**
+	 * A randomly generated breathRate is passed into method and added to
+	 * lineChart Series, while simultaneously checking if the randomly generated
+	 * value is above or below current alarm settings. If the value falls out of
+	 * range then appropriate alerts are displayed. If five data points are out
+	 * of range then a warning is displayed
+	 * 
+	 * @param second
+	 * @param breathRate
+	 */
 	private void updateRespiratoryRate(int second, double breathRate) {
 		int pastUpper = 0;
 		int pastLower = 0;
@@ -694,6 +746,17 @@ public class MainDisplayController implements Initializable {
 			RR_Series.getData().remove(0);
 	}
 
+	/**
+	 * A randomly generated Systolic and Diastolic blood pressure is passed into
+	 * method and added to lineChart Series, while simultaneously checking if
+	 * the randomly generated value is above or below current alarm settings. If
+	 * the value falls out of range then appropriate alerts are displayed. If
+	 * five data points are out of range then a warning is displayed
+	 * 
+	 * @param second
+	 * @param BP_Systolic
+	 * @param BP_Diastolic
+	 */
 	private void updateBloodPressure(int second, int BP_Systolic, int BP_Diastolic) {
 		int pastUpper_S = 0;
 		int pastLower_S = 0;
@@ -704,17 +767,17 @@ public class MainDisplayController implements Initializable {
 			BP_QuickDataSystolicWarning.setText("WARNING: SYSTOLIC PRESSURE PAST UPPER BOUND");
 		else if (BP_Systolic <= BP_SystolicAlarm.getLowerBound()) // sys too low
 			BP_QuickDataSystolicWarning.setText("WARNING: SYSTOLIC PRESSURE PAST LOWER BOUND");
-		else{
+		else {
 			BP_QuickDataSystolicWarning.setText("");
 		}
 		if (BP_Diastolic >= BP_DiastolicAlarm.getUpperBound()) // dia too
-																	// high
+																// high
 			BP_QuickDataDiastolicWarning.setText("WARNING: DIASTOLIC PRESSURE PAST UPPER BOUND");
 		else if (BP_Diastolic <= BP_DiastolicAlarm.getLowerBound()) // dia too
 																	// low
 			BP_QuickDataDiastolicWarning.setText("WARNING: DIASTOLIC PRESSURE PAST LOWER BOUND");
-		else{
-			BP_QuickDataDiastolicWarning.setText("");	
+		else {
+			BP_QuickDataDiastolicWarning.setText("");
 		}
 
 		for (int i = 0; i <= BP_SystolicSeries.getData().size() - 1; i++) {
@@ -747,7 +810,6 @@ public class MainDisplayController implements Initializable {
 			// System.out.println("ISOLATED DIASTOLIC HYPOTENSION");
 			BP_QuickDataDiastolicWarning.setText("ALERT: ISOLATED DIASTOLIC HYPOTENSION");
 		}
-		
 
 		BP_QuickDataCurrent
 				.setText("Quick Data: [Current Blood Pressure = " + BP_Systolic + "/" + BP_Diastolic + " (mm Hg)]");
@@ -760,6 +822,16 @@ public class MainDisplayController implements Initializable {
 			BP_DiastolicSeries.getData().remove(0);
 	}
 
+	/**
+	 * A randomly generated body Temperature is passed into method and added to
+	 * lineChart Series, while simultaneously checking if the randomly generated
+	 * value is above or below current alarm settings. If the value falls out of
+	 * range then appropriate alerts are displayed. If five data points are out
+	 * of range then a warning is displayed
+	 * 
+	 * @param second
+	 * @param temp
+	 */
 	private void updateTemperature(int second, double temp) {
 		int pastUpper = 0;
 		int pastLower = 0;
@@ -779,11 +851,11 @@ public class MainDisplayController implements Initializable {
 
 		if (pastUpper > 5) {
 			// System.out.println("HYPERTHERMIA");
-			RR_QuickDataWarning.setText("ALERT: HYPERTHERMIA");
+			BT_QuickDataWarning.setText("ALERT: HYPERTHERMIA");
 		}
 		if (pastLower > 5) {
 			// System.out.println("HYPOTHERMIA");
-			RR_QuickDataWarning.setText("ALERT: HYPOTHERMIA");
+			BT_QuickDataWarning.setText("ALERT: HYPOTHERMIA");
 		}
 
 		BT_QuickDataCurrent.setText("Quick Data: [Current Body Temperature = " + temp + " (°C)]");
@@ -792,5 +864,6 @@ public class MainDisplayController implements Initializable {
 			BT_Series.getData().remove(0);
 
 	}
+//*****************************************HELPER METHODS*****************************************************	
 
 }

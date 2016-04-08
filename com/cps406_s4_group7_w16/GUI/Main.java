@@ -25,7 +25,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 
 public class Main extends Application {
-
+	//Stage variable
 	Stage window;
 
 	public static void main(String[] args) {
@@ -34,7 +34,7 @@ public class Main extends Application {
 
 	/**
 	 * A method in "Application" that must be implemented to initialize a JavaFX
-	 * application.
+	 * application. Once executed the login window appears.
 	 * 
 	 * @param primaryStage
 	 *            the window of the program
