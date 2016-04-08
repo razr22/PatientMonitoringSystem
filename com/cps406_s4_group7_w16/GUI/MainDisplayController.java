@@ -232,9 +232,9 @@ public class MainDisplayController implements Initializable {
 
 	// Decimal Format variable used for rounding decimal to two decimal places
 	public DecimalFormat df2 = new DecimalFormat(".##");
-	
-	
-//*****************************************METHODS USED BY GUI ITEMS*****************************************************
+
+	// *****************************************METHODS USED BY GUI
+	// ITEMS*****************************************************
 	/**
 	 * A method from "Initializable" that must be implemented. This is
 	 * implemented so that the program can go through an initialize phase, when
@@ -253,6 +253,7 @@ public class MainDisplayController implements Initializable {
 		timelineInit();
 		chartInit();
 	}
+
 	/**
 	 * Opens a new window for simulation control, which influences values that
 	 * ultimately changes the behavior of the patients heart rate, blood
@@ -296,6 +297,7 @@ public class MainDisplayController implements Initializable {
 			patientSim.setDisable(false);
 		});
 	}
+
 	/**
 	 * Opens a new window for control over the alarm settings/ boundaries
 	 * 
@@ -357,6 +359,7 @@ public class MainDisplayController implements Initializable {
 			alarmSettingsTimeline.stop();
 		});
 	}
+
 	/**
 	 * Opens a new window and displays names of those involved in the
 	 * development of this Patient Simulator
@@ -377,6 +380,7 @@ public class MainDisplayController implements Initializable {
 		window.setScene(scene);
 		window.show();
 	}
+
 	/**
 	 * Method used by the "Add Event" button. Adds an entry to the Patient
 	 * Agenda
@@ -408,6 +412,7 @@ public class MainDisplayController implements Initializable {
 		}
 
 	}
+
 	/**
 	 * Method used by the "Remove Event" button. Removes an entry from the
 	 * Patient Agenda
@@ -419,6 +424,7 @@ public class MainDisplayController implements Initializable {
 			schedule.getSelectionModel().clearSelection();
 		}
 	}
+
 	/**
 	 * Method used by the "Open" menuItem in order to open saved file and load
 	 * Patient Profile and Agenda Data
@@ -441,6 +447,7 @@ public class MainDisplayController implements Initializable {
 			// System.out.println("File selection cancelled");
 		}
 	}
+
 	/**
 	 * Method used by the "Save" menuItem in order to save Patient Profile,
 	 * Agenda, and Vital Sign Data
@@ -457,12 +464,14 @@ public class MainDisplayController implements Initializable {
 		agenda.saveAgenda(patient.getName() + ".txt");
 		log.saveLog(patient.getName() + ".txt");
 	}
+
 	/**
 	 * Method used by the "Exit" menuItem in order to exit the Program
 	 */
 	public void exitButton() {
 		System.exit(0);
 	}
+
 	/**
 	 * Method used by the "Detach" menuItem to clear Patient Profile, and
 	 * Agenda. Also stops all line charts
@@ -480,6 +489,7 @@ public class MainDisplayController implements Initializable {
 
 		clearPatientProfile();
 	}
+
 	/**
 	 * Method used by the "Attach" menuItem to Reset all line charts
 	 */
@@ -505,9 +515,11 @@ public class MainDisplayController implements Initializable {
 		chartInit();
 		timelineInit();
 	}
-//*****************************************METHODS USED BY GUI ITEMS*****************************************************
-	
-//*****************************************HELPER METHODS*****************************************************	
+	// *****************************************METHODS USED BY GUI
+	// ITEMS*****************************************************
+
+	// *****************************************HELPER
+	// METHODS*****************************************************
 	/**
 	 * Initializes Main Display timeline, which counts the amount of seconds
 	 * passed and updates all line charts
@@ -539,6 +551,7 @@ public class MainDisplayController implements Initializable {
 		timeline.playFromStart();
 
 	}
+
 	/**
 	 * Gets information from Patient Profile TextFields and passes them to
 	 * Patient profile Data Structure where it can be saved and loaded
@@ -551,6 +564,7 @@ public class MainDisplayController implements Initializable {
 		patient.setWeight(patientWeight.getText());
 		patient.setBloodType(patientBloodType.getText());
 	}
+
 	/**
 	 * Clears Patient Profile TextFields and loads information given by Patient
 	 * Profile Data Structure
@@ -575,6 +589,7 @@ public class MainDisplayController implements Initializable {
 		patientWeight.clear();
 		patientBloodType.clear();
 	}
+
 	/**
 	 * This method is used to initialize all four charts to allow x and y Axis
 	 * to adjust to appropriate ranges. Also allows charts to have visible data
@@ -609,6 +624,7 @@ public class MainDisplayController implements Initializable {
 		BT_Data.add(BT_Series);
 		BT_Chart.setData(BT_Data);
 	}
+
 	/**
 	 * This method is used to reset the textbox and dropdowns used for Agenda
 	 * entry to its initial values. This method is used after every time an
@@ -623,6 +639,7 @@ public class MainDisplayController implements Initializable {
 		minute.setValue("00");
 		am_pm.setValue("AM");
 	}
+
 	/**
 	 * This method is used for the initialization of the Agenda Form and the
 	 * Agenda Table
@@ -837,7 +854,7 @@ public class MainDisplayController implements Initializable {
 		int pastLower = 0;
 		if (temp >= BT_Alarm.getUpperBound())
 			BT_QuickDataWarning.setText("WARNING: CURRENT BODY TEMPERATURE PAST UPPER BOUNDS");
-		else if (temp >= BT_Alarm.getUpperBound())
+		else if (temp <= BT_Alarm.getLowerBound())
 			BT_QuickDataWarning.setText("WARNING: CURRENT BODY TEMPERATURE PAST LOWER BOUNDS");
 		else
 			BT_QuickDataWarning.setText("");
@@ -864,6 +881,7 @@ public class MainDisplayController implements Initializable {
 			BT_Series.getData().remove(0);
 
 	}
-//*****************************************HELPER METHODS*****************************************************	
+	// *****************************************HELPER
+	// METHODS*****************************************************
 
 }
