@@ -7,5 +7,5 @@
   **USAGE:**  
     Run 'Patient Monitoring System.jar'  
     
-    Username: admin  s
+    Username: admin  
     Password: password
