@@ -5,6 +5,6 @@
 ### Role: Tester; tasked with reviewing and debugging program features, both front-end and back-end.
 ---
   **USAGE:**  
-    Run 'Patient Monitoring System.jar'.
-    Username: admin
+    Run 'Patient Monitoring System.jar'  
+    Username: admin  
     Password: password
